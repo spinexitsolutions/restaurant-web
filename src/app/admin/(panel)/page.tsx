@@ -66,8 +66,9 @@ export default async function Dashboard() {
   return (
     <>
       <PageHeader
-        title={greeting}
-        subtitle={`Here's what's happening at ${db.settings.brand.name} · ${new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" })}`}
+        eyebrow={new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" })}
+        title={`${greeting}.`}
+        subtitle={`Here's what's happening at ${db.settings.brand.name} today.`}
       />
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
@@ -75,7 +76,7 @@ export default async function Dashboard() {
           <Link key={k.label} href={k.href} className={i === 0 ? "col-span-2 md:col-span-1" : ""}>
             <Card className="group h-full p-4 transition hover:-translate-y-0.5 hover:shadow-md sm:p-5">
               <div className="flex items-center justify-between">
-                <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#F5F5F7] text-neutral-700 group-hover:bg-[var(--accent)] group-hover:text-white">
+                <span className="grid h-9 w-9 place-items-center rounded-xl bg-mist text-neutral-700 group-hover:bg-[var(--accent)] group-hover:text-white">
                   <k.icon size={17} />
                 </span>
                 <ArrowUpRight size={16} className="text-neutral-300 transition group-hover:text-neutral-700" />
@@ -109,7 +110,7 @@ export default async function Dashboard() {
                   <span className="capitalize text-neutral-600">{b.s.replace(/-/g, " ")}</span>
                   <span className="font-medium">{b.n}</span>
                 </div>
-                <div className="h-2 overflow-hidden rounded-full bg-[#F5F5F7]">
+                <div className="h-2 overflow-hidden rounded-full bg-mist">
                   <div className="h-full rounded-full bg-[var(--accent)]" style={{ width: `${(b.n / maxStatus) * 100}%`, opacity: b.s === "cancelled" ? 0.35 : 0.5 + (b.n / maxStatus) * 0.5 }} />
                 </div>
               </div>
@@ -172,8 +173,8 @@ export default async function Dashboard() {
                       <span className="truncate font-medium">{name}</span>
                       <span className="text-neutral-500">{qty} sold</span>
                     </div>
-                    <div className="mt-1 h-1.5 rounded-full bg-[#F5F5F7]">
-                      <div className="h-full rounded-full bg-neutral-900" style={{ width: `${(qty / maxDish) * 100}%` }} />
+                    <div className="mt-1 h-1.5 rounded-full bg-mist">
+                      <div className="h-full rounded-full bg-ink" style={{ width: `${(qty / maxDish) * 100}%` }} />
                     </div>
                   </div>
                 </div>
@@ -184,8 +185,8 @@ export default async function Dashboard() {
             <SectionTitle title="Inbox" href="/admin/inbox" />
             <div className="space-y-3">
               {messages.map((m) => (
-                <Link key={m.id} href="/admin/inbox" className="flex gap-3 rounded-xl p-1 hover:bg-[#F5F5F7]">
-                  <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[#F5F5F7] text-neutral-500">
+                <Link key={m.id} href="/admin/inbox" className="flex gap-3 rounded-xl p-1 hover:bg-mist">
+                  <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-mist text-neutral-500">
                     <Mail size={14} />
                   </span>
                   <div className="min-w-0">

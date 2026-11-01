@@ -58,14 +58,14 @@ export default function Inbox({ messages }: { messages: Message[] }) {
             </div>
             <Card className="divide-y divide-black/[0.05] overflow-hidden">
               {list.map((m) => (
-                <button key={m.id} onClick={() => setSel(m.id)} className={cx("flex w-full gap-3 px-4 py-3.5 text-left transition", sel === m.id ? "bg-[color-mix(in_oklab,var(--accent)_7%,white)]" : "hover:bg-[#FAFAFB]")}>
+                <button key={m.id} onClick={() => setSel(m.id)} className={cx("flex w-full gap-3 px-4 py-3.5 text-left transition", sel === m.id ? "bg-[color-mix(in_oklab,var(--accent)_7%,white)]" : "hover:bg-paper")}>
                   <Avatar name={m.name} />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2">
                       <span className={cx("truncate text-sm", !m.read ? "font-semibold" : "font-medium text-neutral-700")}>{m.name}</span>
                       <span className="shrink-0 text-[11px] text-neutral-400">{timeAgo(m.createdAt)}</span>
                     </div>
-                    <div className={cx("truncate text-[13px]", !m.read ? "text-neutral-900" : "text-neutral-600")}>{m.subject}</div>
+                    <div className={cx("truncate text-[13px]", !m.read ? "text-ink" : "text-neutral-600")}>{m.subject}</div>
                     <div className="truncate text-xs text-neutral-400">{m.message}</div>
                   </div>
                   {!m.read && <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[var(--accent)]" />}
@@ -95,7 +95,7 @@ export default function Inbox({ messages }: { messages: Message[] }) {
                     <h2 className="mt-6 text-xl font-semibold tracking-tight">{open.subject}</h2>
                     <p className="mt-3 whitespace-pre-wrap text-[15px] leading-relaxed text-neutral-700">{open.message}</p>
                     {open.phone && (
-                      <a href={`tel:${open.phone}`} className="mt-5 inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900">
+                      <a href={`tel:${open.phone}`} className="mt-5 inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-ink">
                         <Phone size={14} /> {open.phone}
                       </a>
                     )}

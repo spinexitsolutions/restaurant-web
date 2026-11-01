@@ -114,7 +114,7 @@ export default function CollectionEditor({ collection, items, categories, curren
       {groups.length > 0 && (
         <div className="no-scrollbar mb-4 flex gap-1.5 overflow-x-auto">
           {groups.map((g) => (
-            <button key={g} onClick={() => setGroupFilter(g)} className={cx("whitespace-nowrap rounded-full border px-3 py-1.5 text-[13px] font-medium transition", groupFilter === g ? "border-neutral-900 bg-neutral-900 text-white" : "border-black/10 bg-white text-neutral-600 hover:border-black/30")}>
+            <button key={g} onClick={() => setGroupFilter(g)} className={cx("whitespace-nowrap rounded-full border px-3 py-1.5 text-[13px] font-medium transition", groupFilter === g ? "border-neutral-900 bg-ink text-white" : "border-black/10 bg-white text-neutral-600 hover:border-black/30")}>
               {g}
             </button>
           ))}

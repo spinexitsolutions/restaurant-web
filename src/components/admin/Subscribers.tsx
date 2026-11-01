@@ -41,7 +41,7 @@ export default function Subscribers({ subscribers }: { subscribers: Subscriber[]
         <Card className="divide-y divide-black/[0.05] overflow-hidden">
           {list.map((s) => (
             <div key={s.id} className="flex items-center gap-3 px-4 py-3 sm:px-5">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#F5F5F7] text-neutral-500"><Mail size={15} /></span>
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-mist text-neutral-500"><Mail size={15} /></span>
               <div className="min-w-0 flex-1">
                 <div className="truncate text-sm font-medium">{s.email}</div>
                 <div className="text-xs text-neutral-400">Joined {fmtDate(s.createdAt)}</div>

@@ -150,7 +150,7 @@ export default function Reservations({ reservations, slots, maxGuests }: { reser
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       onClick={() => setOpenId(r.id)}
-                      className="grid cursor-pointer grid-cols-[1fr_auto] items-center gap-3 px-4 py-3 transition hover:bg-[#FAFAFB] md:grid-cols-[1.6fr_1fr_0.6fr_0.7fr_1fr_40px] md:gap-4 md:px-5"
+                      className="grid cursor-pointer grid-cols-[1fr_auto] items-center gap-3 px-4 py-3 transition hover:bg-paper md:grid-cols-[1.6fr_1fr_0.6fr_0.7fr_1fr_40px] md:gap-4 md:px-5"
                     >
                       <div className="flex min-w-0 items-center gap-3">
                         <Avatar name={r.name} />
@@ -259,14 +259,14 @@ export default function Reservations({ reservations, slots, maxGuests }: { reser
               <InfoTile icon={<Users size={15} />} label="Guests" value={String(open.guests)} />
             </div>
             <Card className="divide-y divide-black/[0.05]">
-              <a href={`tel:${open.phone}`} className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-[#FAFAFB]"><Phone size={15} className="text-neutral-400" /> {open.phone || "—"}</a>
-              <a href={`mailto:${open.email}`} className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-[#FAFAFB]"><Mail size={15} className="text-neutral-400" /> {open.email || "—"}</a>
+              <a href={`tel:${open.phone}`} className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-paper"><Phone size={15} className="text-neutral-400" /> {open.phone || "—"}</a>
+              <a href={`mailto:${open.email}`} className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-paper"><Mail size={15} className="text-neutral-400" /> {open.email || "—"}</a>
             </Card>
             <div>
               <div className="mb-2 text-[13px] font-medium text-neutral-700">Status</div>
               <div className="flex flex-wrap gap-1.5">
                 {STATUSES.map((s) => (
-                  <button key={s} onClick={() => patch(open.id, { status: s }, `Marked ${s}`)} className={cx("rounded-full border px-3 py-1.5 text-xs font-medium capitalize transition", open.status === s ? "border-neutral-900 bg-neutral-900 text-white" : "border-black/10 bg-white text-neutral-600 hover:border-black/30")}>
+                  <button key={s} onClick={() => patch(open.id, { status: s }, `Marked ${s}`)} className={cx("rounded-full border px-3 py-1.5 text-xs font-medium capitalize transition", open.status === s ? "border-neutral-900 bg-ink text-white" : "border-black/10 bg-white text-neutral-600 hover:border-black/30")}>
                     {s.replace("-", " ")}
                   </button>
                 ))}

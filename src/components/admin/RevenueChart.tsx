@@ -59,7 +59,7 @@ export default function RevenueChart({ data, currency }: { data: { label: string
       </svg>
       {hover !== null && (
         <div
-          className="pointer-events-none absolute -top-2 rounded-lg bg-neutral-900 px-2.5 py-1.5 text-xs text-white shadow-lg"
+          className="pointer-events-none absolute -top-2 rounded-lg bg-ink px-2.5 py-1.5 text-xs text-white shadow-lg"
           style={{ left: `${(x(hover) / W) * 100}%`, transform: `translateX(${hover > data.length / 2 ? "-105%" : "5%"})` }}
         >
           <div className="text-white/60">{data[hover].label}</div>

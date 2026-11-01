@@ -61,7 +61,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
               className={cx(
                 "pointer-events-auto flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium shadow-lg shadow-black/10",
-                t.tone === "ok" ? "bg-neutral-900 text-white" : "bg-red-600 text-white"
+                t.tone === "ok" ? "bg-ink/90 text-white backdrop-blur-xl" : "bg-red-600 text-white"
               )}
             >
               {t.tone === "ok" ? <CircleCheck size={16} /> : <AlertTriangle size={16} />}
@@ -91,13 +91,14 @@ export function Button({
     <button
       {...rest}
       disabled={rest.disabled || loading}
+      style={variant === "dark" ? ({ "--ab-fill": "var(--accent)" } as React.CSSProperties) : undefined}
       className={cx(
-        "inline-flex select-none items-center justify-center gap-1.5 rounded-full font-medium transition active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50",
-        size === "sm" ? "h-8 px-3 text-[13px]" : "h-10 px-4 text-sm",
-        variant === "primary" && "bg-[var(--accent)] text-white shadow-sm shadow-[var(--accent)]/30 hover:brightness-110",
-        variant === "dark" && "bg-neutral-900 text-white hover:bg-neutral-800",
-        variant === "secondary" && "border border-black/10 bg-white text-neutral-800 hover:bg-neutral-50",
-        variant === "ghost" && "text-neutral-600 hover:bg-black/5",
+        "inline-flex select-none items-center justify-center gap-1.5 rounded-full font-medium tracking-[-0.01em] transition-[transform,color,box-shadow] duration-300 active:scale-[0.96] disabled:pointer-events-none disabled:opacity-50",
+        size === "sm" ? "h-8 px-3.5 text-[13px]" : "h-10 px-5 text-sm",
+        variant === "primary" && "abtn bg-[var(--accent)] text-white shadow-[0_6px_16px_-8px_var(--accent)]",
+        variant === "dark" && "abtn bg-ink text-white",
+        variant === "secondary" && "abtn bg-white text-ink shadow-[0_1px_2px_rgba(0,0,0,0.05),0_0_0_1px_rgba(0,0,0,0.07)] hover:text-white",
+        variant === "ghost" && "text-ink/70 hover:bg-ink/[0.05] hover:text-ink",
         variant === "danger" && "bg-red-50 text-red-600 hover:bg-red-100",
         className
       )}
@@ -110,21 +111,27 @@ export function Button({
 
 export function Card({ className, children, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div {...rest} className={cx("rounded-2xl border border-black/[0.06] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.03)]", className)}>
+    <div {...rest} className={cx("rounded-[22px] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_28px_-14px_rgba(0,0,0,0.12)]", className)}>
       {children}
     </div>
   );
 }
 
-export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions?: React.ReactNode }) {
+export function PageHeader({ title, subtitle, actions, eyebrow }: { title: string; subtitle?: string; actions?: React.ReactNode; eyebrow?: string }) {
   return (
-    <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <motion.div
+      initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+    >
       <div>
-        <h1 className="text-[28px] font-semibold tracking-[-0.03em] text-neutral-900 sm:text-[32px]">{title}</h1>
-        {subtitle && <p className="mt-1 text-sm text-neutral-500">{subtitle}</p>}
+        {eyebrow && <p className="mb-1.5 text-[14px] font-semibold text-[var(--accent)]">{eyebrow}</p>}
+        <h1 className="text-[32px] font-semibold leading-[1.05] tracking-[-0.035em] text-ink sm:text-[44px]">{title}</h1>
+        {subtitle && <p className="mt-2 text-[15px] text-muted">{subtitle}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
-    </div>
+    </motion.div>
   );
 }
 
@@ -137,7 +144,7 @@ export function Badge({ children, tone = "neutral", className }: { children: Rea
     violet: "bg-violet-50 text-violet-700",
     red: "bg-red-50 text-red-600",
     accent: "bg-[color-mix(in_oklab,var(--accent)_12%,white)] text-[var(--accent)]",
-    dark: "bg-neutral-900 text-white",
+    dark: "bg-ink text-white",
   };
   return (
     <span className={cx("inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-medium capitalize", tones[tone] || tones.neutral, className)}>
@@ -164,7 +171,7 @@ export function StatusBadge({ status }: { status: string }) {
 }
 
 const inputCls =
-  "w-full rounded-xl border border-black/10 bg-white px-3.5 py-2.5 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10";
+  "w-full rounded-[14px] border border-black/[0.08] bg-white px-4 py-2.5 text-[14px] text-ink outline-none transition placeholder:text-neutral-400 hover:border-black/15 focus:border-[var(--accent)] focus:ring-4 focus:ring-[color-mix(in_oklab,var(--accent)_14%,transparent)]";
 export const inputClass = inputCls;
 
 export function Label({ children, hint }: { children: React.ReactNode; hint?: string }) {
@@ -224,7 +231,7 @@ export function Toggle({ checked, onChange, label, description }: { checked: boo
         e.stopPropagation();
         onChange(!checked);
       }}
-      className={cx("relative inline-flex h-[26px] w-[44px] shrink-0 items-center rounded-full transition-colors", checked ? "bg-emerald-500" : "bg-neutral-200")}
+      className={cx("relative inline-flex h-[26px] w-[44px] shrink-0 items-center rounded-full transition-colors", checked ? "bg-[var(--accent)]" : "bg-black/[0.12]")}
     >
       <motion.span layout transition={{ type: "spring", stiffness: 600, damping: 35 }} className={cx("h-[22px] w-[22px] rounded-full bg-white shadow", checked ? "ml-[20px]" : "ml-[2px]")} />
     </button>
@@ -330,7 +337,7 @@ export function Drawer({ open, onClose, title, children, footer, wide }: { open:
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 380, damping: 40 }}
-            className={cx("absolute inset-y-0 right-0 flex w-full flex-col bg-[#FBFBFD] shadow-2xl sm:rounded-l-3xl", wide ? "sm:max-w-2xl" : "sm:max-w-lg")}
+            className={cx("absolute inset-y-0 right-0 flex w-full flex-col bg-paper shadow-2xl sm:inset-y-3 sm:right-3 sm:rounded-[28px] sm:overflow-hidden", wide ? "sm:max-w-2xl" : "sm:max-w-lg")}
           >
             <div className="flex items-center justify-between gap-3 border-b border-black/[0.06] px-5 py-4 sm:px-6">
               <div className="min-w-0 truncate text-lg font-semibold tracking-tight">{title}</div>
@@ -392,7 +399,7 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
 
 export function Empty({ icon, title, text }: { icon?: React.ReactNode; title: string; text?: string }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-black/10 bg-white/60 px-6 py-14 text-center">
+    <div className="flex flex-col items-center justify-center rounded-[22px] border border-dashed border-black/10 bg-white/70 px-6 py-14 text-center">
       {icon && <div className="mb-3 text-neutral-300">{icon}</div>}
       <div className="font-medium text-neutral-700">{title}</div>
       {text && <div className="mt-1 max-w-xs text-sm text-neutral-500">{text}</div>}
@@ -404,7 +411,7 @@ export function Segmented<T extends string>({ value, onChange, options, layoutId
   return (
     <div className="no-scrollbar inline-flex max-w-full overflow-x-auto rounded-full bg-black/[0.05] p-1">
       {options.map((o) => (
-        <button key={o.value} onClick={() => onChange(o.value)} className={cx("relative whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors", value === o.value ? "text-neutral-900" : "text-neutral-500 hover:text-neutral-800")}>
+        <button key={o.value} onClick={() => onChange(o.value)} className={cx("relative whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors", value === o.value ? "text-ink" : "text-neutral-500 hover:text-neutral-800")}>
           {value === o.value && <motion.span layoutId={layoutId} transition={{ type: "spring", stiffness: 500, damping: 38 }} className="absolute inset-0 rounded-full bg-white shadow-sm" />}
           <span className="relative z-10 flex items-center gap-1.5">{o.label}</span>
         </button>

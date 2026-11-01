@@ -258,3 +258,22 @@ html.intro-skip [data-intro] {
   .link-u:hover::after { transform: scaleX(1); transform-origin: left; }
   .link-u:hover svg { transform: translateX(3px); }
 }
+
+/* Admin buttons: same "fill rises from below" language as the site */
+.abtn { position: relative; isolation: isolate; overflow: hidden; }
+.abtn::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 100%;
+  width: 140%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: var(--ab-fill, var(--ink));
+  transform: translate(-50%, 0) scale(0);
+  transition: transform 0.6s var(--ease-apple);
+}
+@media (hover: hover) {
+  .abtn:hover::before { transform: translate(-50%, -55%) scale(1); }
+}

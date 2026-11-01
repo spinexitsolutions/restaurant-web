@@ -74,7 +74,7 @@ export default function HomepageEditor({ settings }: { settings: Settings }) {
             <div className="grid gap-4 sm:grid-cols-2">
               <TextField label="Eyebrow" value={d.hero.eyebrow} onChange={(e) => hero("eyebrow", e.target.value)} className="sm:col-span-2" />
               <TextField label="Headline" value={d.hero.title} onChange={(e) => hero("title", e.target.value)} />
-              <TextField label="Headline accent (italic)" value={d.hero.titleAccent} onChange={(e) => hero("titleAccent", e.target.value)} />
+              <TextField label="Headline second line (grey)" value={d.hero.titleAccent} onChange={(e) => hero("titleAccent", e.target.value)} />
               <TextArea label="Subtitle" rows={3} value={d.hero.subtitle} onChange={(e) => hero("subtitle", e.target.value)} className="sm:col-span-2" />
               <TextField label="Primary button" value={d.hero.ctaPrimary} onChange={(e) => hero("ctaPrimary", e.target.value)} />
               <TextField label="Secondary button" value={d.hero.ctaSecondary} onChange={(e) => hero("ctaSecondary", e.target.value)} />
@@ -82,7 +82,7 @@ export default function HomepageEditor({ settings }: { settings: Settings }) {
               <TextField label="Marquee words" hint="Comma separated" value={d.hero.marquee.join(", ")} onChange={(e) => hero("marquee", e.target.value.split(",").map((x) => x.trim()).filter(Boolean))} className="sm:col-span-2" />
             </div>
             {/* live preview */}
-            <div className="relative mt-5 overflow-hidden rounded-2xl bg-neutral-900 p-6 text-white">
+            <div className="relative mt-5 overflow-hidden rounded-2xl bg-ink p-6 text-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               {d.hero.image && <img src={d.hero.image} alt="" className="absolute inset-0 h-full w-full object-cover opacity-40" />}
               <div className="relative">

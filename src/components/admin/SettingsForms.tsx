@@ -42,7 +42,7 @@ const PALETTES = [
 const INTRO_STYLES: { value: IntroStyle; title: string; text: string }[] = [
   { value: "curtain", title: "Curtain", text: "Brand name rises from below, then the screen splits open like a theatre curtain." },
   { value: "counter", title: "Counter", text: "A large 0–100 loading counter with a progress line, then a smooth wipe upwards." },
-  { value: "words", title: "Words", text: "Your words flash one by one in large italic type, ending on your brand name." },
+  { value: "words", title: "Words", text: "Your words flash one by one in large type, ending on your brand name." },
 ];
 
 export default function SettingsForm({ section, settings }: { section: SettingsSection; settings: Settings }) {
@@ -148,7 +148,7 @@ function Intro({ d, setD }: P) {
         <div className="mb-3 font-semibold">Style</div>
         <div className="grid gap-2 sm:grid-cols-3">
           {INTRO_STYLES.map((s) => (
-            <button key={s.value} onClick={() => set("style", s.value)} className={cx("relative overflow-hidden rounded-2xl border p-4 text-left transition", i.style === s.value ? "border-neutral-900 bg-neutral-900 text-white" : "border-black/10 bg-white hover:border-black/30")}>
+            <button key={s.value} onClick={() => set("style", s.value)} className={cx("relative overflow-hidden rounded-2xl border p-4 text-left transition", i.style === s.value ? "border-neutral-900 bg-ink text-white" : "border-black/10 bg-white hover:border-black/30")}>
               <IntroThumb style={s.value} active={i.style === s.value} />
               <div className="mt-3 font-medium">{s.title}</div>
               <div className={cx("mt-1 text-xs leading-relaxed", i.style === s.value ? "text-white/60" : "text-neutral-500")}>{s.text}</div>
@@ -160,14 +160,14 @@ function Intro({ d, setD }: P) {
           <Label hint="Shown in sequence — the last word stays">Words</Label>
           <div className="flex flex-wrap items-center gap-1.5">
             {i.words.map((w, idx) => (
-              <span key={idx} className="inline-flex items-center gap-1 rounded-full bg-[#F5F5F7] py-1 pl-3 pr-1.5 text-sm">
-                <span className="font-display italic">{w}</span>
+              <span key={idx} className="inline-flex items-center gap-1 rounded-full bg-mist py-1 pl-3 pr-1.5 text-sm">
+                <span className="font-semibold tracking-tight">{w}</span>
                 <button onClick={() => set("words", i.words.filter((_, j) => j !== idx))} className="grid h-5 w-5 place-items-center rounded-full text-neutral-400 hover:bg-black/10"><X size={11} /></button>
               </span>
             ))}
             <form onSubmit={(e) => { e.preventDefault(); if (word.trim()) { set("words", [...i.words, word.trim()]); setWord(""); } }} className="flex items-center gap-1">
               <input value={word} onChange={(e) => setWord(e.target.value)} placeholder="Add word" className="w-28 rounded-full border border-black/10 px-3 py-1 text-sm outline-none focus:border-[var(--accent)]" />
-              <button className="grid h-7 w-7 place-items-center rounded-full bg-neutral-900 text-white"><Plus size={13} /></button>
+              <button className="grid h-7 w-7 place-items-center rounded-full bg-ink text-white"><Plus size={13} /></button>
             </form>
           </div>
         </div>
@@ -187,9 +187,9 @@ function Intro({ d, setD }: P) {
 }
 
 function IntroThumb({ style, active }: { style: IntroStyle; active: boolean }) {
-  const fg = active ? "bg-white" : "bg-neutral-900";
+  const fg = active ? "bg-white" : "bg-ink";
   return (
-    <div className={cx("relative h-20 overflow-hidden rounded-xl", active ? "bg-white/10" : "bg-[#F5F5F7]")}>
+    <div className={cx("relative h-20 overflow-hidden rounded-xl", active ? "bg-white/10" : "bg-mist")}>
       {style === "curtain" && (
         <>
           <motion.div className={cx("absolute inset-y-0 left-0 w-1/2", fg)} animate={{ x: ["0%", "0%", "-100%", "-100%"] }} transition={{ duration: 2.4, repeat: Infinity, times: [0, 0.4, 0.7, 1] }} />
@@ -204,7 +204,7 @@ function IntroThumb({ style, active }: { style: IntroStyle; active: boolean }) {
       )}
       {style === "words" && (
         <div className="grid h-full place-items-center">
-          <motion.span className="font-display text-2xl italic" animate={{ opacity: [0, 1, 1, 0], y: [8, 0, 0, -8] }} transition={{ duration: 1.2, repeat: Infinity }}>
+          <motion.span className="font-semibold tracking-tight text-2xl" animate={{ opacity: [0, 1, 1, 0], y: [8, 0, 0, -8] }} transition={{ duration: 1.2, repeat: Infinity }}>
             Spice
           </motion.span>
         </div>
@@ -285,7 +285,7 @@ function Operations({ d, setD }: P) {
           <Label hint="Tap to remove">Time slots</Label>
           <div className="flex flex-wrap gap-1.5">
             {[...r.slots].sort().map((s) => (
-              <button key={s} onClick={() => setR("slots", r.slots.filter((x) => x !== s))} className="group inline-flex items-center gap-1 rounded-full bg-[#F5F5F7] px-3 py-1.5 text-xs font-medium hover:bg-red-50 hover:text-red-600">
+              <button key={s} onClick={() => setR("slots", r.slots.filter((x) => x !== s))} className="group inline-flex items-center gap-1 rounded-full bg-mist px-3 py-1.5 text-xs font-medium hover:bg-red-50 hover:text-red-600">
                 {to12h(s)} <X size={11} className="opacity-40 group-hover:opacity-100" />
               </button>
             ))}

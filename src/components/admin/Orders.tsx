@@ -131,7 +131,7 @@ export default function Orders({ orders, currency }: { orders: Order[]; currency
       ) : (
         <Card className="divide-y divide-black/[0.05] overflow-hidden">
           {filtered.map((o) => (
-            <div key={o.id} onClick={() => setOpenId(o.id)} className="flex cursor-pointer items-center gap-3 px-4 py-3 hover:bg-[#FAFAFB] sm:px-5">
+            <div key={o.id} onClick={() => setOpenId(o.id)} className="flex cursor-pointer items-center gap-3 px-4 py-3 hover:bg-paper sm:px-5">
               <Avatar name={o.name} />
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 text-sm font-medium">
@@ -198,7 +198,7 @@ export default function Orders({ orders, currency }: { orders: Order[]; currency
             {/* receipt */}
             <div className="relative rounded-2xl bg-white p-5 font-mono text-[13px] shadow-sm ring-1 ring-black/[0.06]">
               <div className="text-center">
-                <div className="font-display text-2xl italic">Noor</div>
+                <div className="font-semibold tracking-tight text-2xl">Noor</div>
                 <div className="text-[11px] text-neutral-400">{fmtDate(open.createdAt, { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}</div>
                 <div className="text-[11px] uppercase tracking-widest text-neutral-400">{open.type} · {open.payment}</div>
               </div>

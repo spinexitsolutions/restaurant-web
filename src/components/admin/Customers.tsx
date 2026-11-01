@@ -82,7 +82,7 @@ export default function Customers({ customers, reservations, orders, currency }:
       <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div className="no-scrollbar flex gap-1.5 overflow-x-auto">
           {allTags.map((t) => (
-            <button key={t} onClick={() => setTag(t)} className={cx("whitespace-nowrap rounded-full border px-3 py-1.5 text-[13px] font-medium transition", tag === t ? "border-neutral-900 bg-neutral-900 text-white" : "border-black/10 bg-white text-neutral-600 hover:border-black/30")}>
+            <button key={t} onClick={() => setTag(t)} className={cx("whitespace-nowrap rounded-full border px-3 py-1.5 text-[13px] font-medium transition", tag === t ? "border-neutral-900 bg-ink text-white" : "border-black/10 bg-white text-neutral-600 hover:border-black/30")}>
               {t === "VIP" && <Crown size={12} className="mr-1 inline" />}
               {t}
             </button>
@@ -187,15 +187,15 @@ function CustomerDetail({ c, reservations, orders, currency, onSave, onDelete }:
         ))}
       </div>
       <Card className="divide-y divide-black/[0.05]">
-        <a href={`tel:${c.phone}`} className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-[#FAFAFB]"><Phone size={15} className="text-neutral-400" /> {c.phone || "—"}</a>
-        <a href={`mailto:${c.email}`} className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-[#FAFAFB]"><Mail size={15} className="text-neutral-400" /> {c.email || "—"}</a>
+        <a href={`tel:${c.phone}`} className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-paper"><Phone size={15} className="text-neutral-400" /> {c.phone || "—"}</a>
+        <a href={`mailto:${c.email}`} className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-paper"><Mail size={15} className="text-neutral-400" /> {c.email || "—"}</a>
       </Card>
 
       <div>
         <div className="mb-2 text-[13px] font-medium text-neutral-700">Tags</div>
         <div className="flex flex-wrap items-center gap-1.5">
           {tags.map((t) => (
-            <span key={t} className="inline-flex items-center gap-1 rounded-full bg-neutral-900 py-1 pl-3 pr-1.5 text-xs font-medium text-white">
+            <span key={t} className="inline-flex items-center gap-1 rounded-full bg-ink py-1 pl-3 pr-1.5 text-xs font-medium text-white">
               {t}
               <button onClick={() => setTags(tags.filter((x) => x !== t))} className="grid h-4 w-4 place-items-center rounded-full hover:bg-white/20"><X size={10} /></button>
             </span>
