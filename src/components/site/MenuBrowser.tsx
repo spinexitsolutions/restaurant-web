@@ -51,7 +51,7 @@ export default function MenuBrowser({ categories, items }: { categories: Categor
     <>
       {/* sticky controls */}
       <div className="sticky top-[76px] z-30 mx-auto max-w-[1400px] px-3 sm:px-8">
-        <div className="glass-light flex flex-col gap-2 rounded-[24px] p-2 ring-1 ring-ink/5 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.3)] md:flex-row md:items-center">
+        <div className="flex flex-col gap-2 rounded-[24px] bg-paper/95 backdrop-blur-xl p-2 ring-1 ring-ink/5 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.3)] md:flex-row md:items-center">
           <div className="flex h-11 items-center gap-2 rounded-full bg-ink/5 px-4 md:w-64">
             <Search size={16} className="opacity-50" />
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search dishes" className="w-full bg-transparent text-[15px] outline-none" />

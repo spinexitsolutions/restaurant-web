@@ -82,7 +82,7 @@ export default function ReserveWizard({ image, initial }: { image: string; initi
   }
 
   return (
-    <div className="mx-auto grid max-w-[1400px] gap-8 px-5 pb-32 sm:px-10 lg:grid-cols-[1fr_420px]">
+    <div className="mx-auto grid max-w-[1400px] gap-8 px-5 pb-32 sm:px-10 lg:grid-cols-[minmax(0,1fr)_420px]">
       <div className="min-h-[560px] rounded-[30px] bg-cream p-5 ring-1 ring-ink/5 sm:p-10">
         {step < 4 && (
           <div className="mb-10 flex items-center gap-2">

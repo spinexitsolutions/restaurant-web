@@ -35,6 +35,7 @@ interface CartApi {
   setQty: (id: string, qty: number) => void;
   clear: () => void;
   bump: number;
+  hydrated: boolean;
 }
 const CartCtx = createContext<CartApi | null>(null);
 export const useCart = () => useContext(CartCtx)!;
@@ -73,20 +74,20 @@ export function SiteProviders({ settings, children, initialIntro }: { settings: 
   const [lines, setLines] = useState<CartLine[]>([]);
   const [open, setOpen] = useState(false);
   const [bump, setBump] = useState(0);
-  const loaded = useRef(false);
+  const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
     try {
       const raw = localStorage.getItem("noor-cart");
       if (raw) setLines(JSON.parse(raw));
     } catch {}
-    loaded.current = true;
+    setHydrated(true);
   }, []);
   useEffect(() => {
-    if (!loaded.current) return;
+    if (!hydrated) return;
     try {
       localStorage.setItem("noor-cart", JSON.stringify(lines));
     } catch {}
-  }, [lines]);
+  }, [lines, hydrated]);
   useEffect(() => {
     if (open) lenisRef.current?.stop();
     else if (introDone) lenisRef.current?.start();
@@ -116,8 +117,9 @@ export function SiteProviders({ settings, children, initialIntro }: { settings: 
       setQty,
       clear,
       bump,
+      hydrated,
     }),
-    [lines, open, add, setQty, clear, bump]
+    [lines, open, add, setQty, clear, bump, hydrated]
   );
 
   return (

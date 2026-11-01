@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { useIntro, useSite } from "../providers";
 import { EASE, Magnetic } from "../motion";
@@ -12,10 +12,24 @@ export default function Hero() {
   const h = s.hero;
   const { done } = useIntro();
   const ref = useRef<HTMLElement>(null);
+  const headRef = useRef<HTMLDivElement>(null);
+  const [start, setStart] = useState(56);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
+  // the image card starts right under the headline, whatever the screen size
+  useEffect(() => {
+    const measure = () => {
+      if (!headRef.current) return;
+      const b = headRef.current.getBoundingClientRect().bottom + window.scrollY - (ref.current?.offsetTop || 0);
+      setStart(Math.min(62, Math.max(30, ((b + 28) / window.innerHeight) * 100)));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
   // image grows from a card into a full-bleed frame
-  const top = useTransform(scrollYProgress, [0, 0.55], [56, 0]);
+  const top = useTransform(scrollYProgress, [0, 0.55], [start, 0]);
   const side = useTransform(scrollYProgress, [0, 0.55], [4, 0]);
   const bottom = useTransform(scrollYProgress, [0, 0.55], [3, 0]);
   const radius = useTransform(scrollYProgress, [0, 0.55], [28, 0]);
@@ -32,7 +46,7 @@ export default function Hero() {
     <section ref={ref} className="relative h-[220vh]">
       <div className="sticky top-0 h-dvh overflow-hidden">
         {/* Headline */}
-        <motion.div style={{ y: headY, opacity: headOpacity }} className="absolute inset-x-0 top-0 z-10 px-5 pt-[118px] sm:px-10 sm:pt-[132px]">
+        <motion.div ref={headRef} style={{ y: headY, opacity: headOpacity }} className="absolute inset-x-0 top-0 z-10 px-5 pt-[118px] sm:px-10 sm:pt-[132px]">
           <motion.div
             className="eyebrow mb-5 flex items-center gap-3 text-muted"
             initial={{ opacity: 0, y: 10 }}
@@ -66,6 +80,14 @@ export default function Hero() {
               {h.subtitle}
             </motion.p>
           </div>
+          <motion.p
+            className="mt-5 max-w-md text-[15px] leading-relaxed text-muted text-pretty lg:hidden"
+            initial={{ opacity: 0, y: 12 }}
+            animate={done ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1, ease: EASE, delay: 0.45 }}
+          >
+            {h.subtitle}
+          </motion.p>
         </motion.div>
 
         {/* Expanding image */}

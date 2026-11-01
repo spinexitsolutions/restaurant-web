@@ -63,6 +63,8 @@ export default function Checkout({ suggestions }: { suggestions: MenuItem[] }) {
     return <p className="mx-auto max-w-xl px-5 pb-32 text-center text-muted">Online ordering is paused right now — please call {s.contact.phone}.</p>;
   }
 
+  if (!cart.hydrated) return <div className="mx-auto h-[60vh] max-w-[1400px] animate-pulse rounded-[30px] bg-ink/5" />;
+
   if (cart.count === 0) {
     return (
       <div className="mx-auto max-w-[1400px] px-5 pb-32 sm:px-10">
@@ -90,7 +92,7 @@ export default function Checkout({ suggestions }: { suggestions: MenuItem[] }) {
   }
 
   return (
-    <form onSubmit={place} className="mx-auto grid max-w-[1400px] gap-8 px-5 pb-32 sm:px-10 lg:grid-cols-[1fr_440px]">
+    <form onSubmit={place} className="mx-auto grid max-w-[1400px] gap-8 px-5 pb-32 sm:px-10 lg:grid-cols-[minmax(0,1fr)_440px]">
       <div className="space-y-6">
         {/* type */}
         <div className="grid grid-cols-2 gap-1 rounded-full bg-ink/5 p-1">

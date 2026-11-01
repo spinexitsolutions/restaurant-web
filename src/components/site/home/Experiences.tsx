@@ -42,18 +42,18 @@ function Card({ e, i, total }: { e: EventItem; i: number; total: number }) {
   return (
     <div ref={ref} className="sticky h-[78vh] min-h-[540px] pb-6" style={{ top: `calc(90px + ${i * 22}px)` }}>
       <motion.article style={{ scale }} className="relative h-full origin-top overflow-hidden rounded-[30px] bg-[#1e1b18] ring-1 ring-white/10" data-cursor="Book">
-        <div className="grid h-full md:grid-cols-2">
-          <div className="relative h-[45%] overflow-hidden md:h-full">
+        <div className="flex h-full flex-col md:grid md:grid-cols-2">
+          <div className="relative h-[42%] shrink-0 overflow-hidden md:h-full">
             <img src={e.image} alt={e.title} loading="lazy" className="h-full w-full object-cover" />
           </div>
-          <div className="flex flex-col justify-between p-6 sm:p-10">
+          <div className="flex flex-1 flex-col justify-between gap-4 p-6 sm:p-10">
             <div className="flex items-center justify-between">
               <span className="font-mono text-[12px] text-paper/50">{String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</span>
               <span className="rounded-full bg-accent/90 px-3 py-1 text-[12px]">{e.seats} seats</span>
             </div>
             <div>
-              <h3 className="display text-5xl sm:text-6xl lg:text-7xl">{e.title}</h3>
-              <p className="mt-4 max-w-md text-paper/60 text-pretty">{e.description}</p>
+              <h3 className="display text-[44px] leading-[0.95] sm:text-6xl lg:text-7xl">{e.title}</h3>
+              <p className="mt-3 line-clamp-3 max-w-md text-[15px] text-paper/60 text-pretty sm:mt-4 sm:line-clamp-none sm:text-base">{e.description}</p>
             </div>
             <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-5">
               <div className="flex flex-wrap gap-x-5 gap-y-1 text-[14px] text-paper/70">
