@@ -227,8 +227,8 @@ export default function Navbar({ previews }: { previews: string[] }) {
                                 <span className="w-6 font-mono text-[11px] text-paper/40">{String(i + 1).padStart(2, "0")}</span>
                                 <span
                                   className={clsx(
-                                    "display text-[42px] leading-[1.05] transition-all duration-500 sm:text-[52px]",
-                                    active ? "text-accent-soft italic" : "text-paper group-hover:translate-x-2 group-hover:italic"
+                                    "mega text-[46px] leading-[0.95] transition-all duration-500 sm:text-[60px]",
+                                    active ? "text-accent-soft" : "text-paper group-hover:translate-x-2 group-hover:text-accent-soft"
                                   )}
                                 >
                                   {l.label}

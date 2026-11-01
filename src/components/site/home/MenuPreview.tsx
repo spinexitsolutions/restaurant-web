@@ -72,7 +72,7 @@ export default function MenuPreview({ categories, items }: { categories: Categor
                 <div className="min-w-0">
                   <div className="flex items-center gap-3">
                     <VegMark veg={item.tags.includes("veg")} />
-                    <h3 className="display truncate text-[26px] transition-all duration-500 group-hover:translate-x-2 group-hover:italic sm:text-5xl">{item.name}</h3>
+                    <h3 className="display truncate text-[26px] transition-all duration-500 group-hover:translate-x-2 group-hover:text-accent sm:text-5xl">{item.name}</h3>
                   </div>
                   <p className="mt-1 line-clamp-1 text-[14px] text-muted sm:pl-[26px] sm:text-[15px]">{item.description}</p>
                 </div>

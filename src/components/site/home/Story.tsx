@@ -26,7 +26,7 @@ export default function Story() {
           </FadeUp>
           <FadeUp delay={0.3} className="mt-10 flex items-center gap-5">
             <span className="h-px flex-1 bg-line" />
-            <span className="display text-2xl italic">{st.signature}</span>
+            <span className="text-[15px] font-semibold uppercase tracking-[0.12em]">{st.signature}</span>
           </FadeUp>
           <FadeUp delay={0.35} className="mt-12 grid grid-cols-[1fr_auto] items-end gap-6">
             <ParallaxImage src={st.imageAlt} alt="" className="aspect-[4/3] rounded-[22px]" strength={14} />

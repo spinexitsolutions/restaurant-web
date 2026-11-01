@@ -33,7 +33,7 @@ export function RevealText({
       {words.map((w, i) => (
         <span key={i} aria-hidden className="inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom">
           <motion.span
-            className={clsx("inline-block will-change-transform", italicWords.includes(w) && "italic")}
+            className={clsx("inline-block will-change-transform", italicWords.includes(w) && "text-accent")}
             initial={{ y: "110%", rotate: 4 }}
             animate={inView ? { y: "0%", rotate: 0 } : { y: "110%", rotate: 4 }}
             transition={{ duration: 1, ease: EASE, delay: delay + i * stagger }}
@@ -183,12 +183,19 @@ export function useSmoothProgress(v: MotionValue<number>) {
   return useSpring(v, { stiffness: 120, damping: 30, mass: 0.3 });
 }
 
+/** Section tag: a pill with a live dot and an index counter — replaces the usual "01 —— LABEL". */
 export function SectionLabel({ index, children, className }: { index?: string; children: ReactNode; className?: string }) {
   return (
-    <div className={clsx("eyebrow flex items-center gap-3", className)}>
-      {index && <span className="text-accent">{index}</span>}
-      <span className="h-px w-8 bg-current opacity-30" />
-      <span>{children}</span>
+    <div className={clsx("flex items-center gap-2", className)}>
+      <motion.span
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ type: "spring", stiffness: 300, damping: 18 }}
+        className="h-2.5 w-2.5 rounded-full bg-accent"
+      />
+      <span className="eyebrow rounded-full border border-current/20 px-3 py-1.5">{children}</span>
+      {index && <span className="eyebrow opacity-50">/{index}</span>}
     </div>
   );
 }

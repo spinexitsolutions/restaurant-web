@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, Geist, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
 import { getSettings } from "@/lib/db";
 import "./globals.css";
 
-const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-serif" });
-const sans = Geist({ subsets: ["latin"], variable: "--font-geist" });
-const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
+const display = Bricolage_Grotesque({ subsets: ["latin"], axes: ["opsz", "wdth"], variable: "--font-brico" });
+const body = Instrument_Sans({ subsets: ["latin"], axes: ["wdth"], variable: "--font-body" });
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#141210",
+  themeColor: "#0f0f12",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -34,7 +33,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     "--accent-soft": s.brand.accentSoft,
   } as React.CSSProperties;
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable}`} style={vars} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${body.variable}`} style={vars} suppressHydrationWarning>
       <body className="min-h-dvh bg-paper text-ink">{children}</body>
     </html>
   );

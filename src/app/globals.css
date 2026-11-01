@@ -8,18 +8,18 @@
   --color-line: color-mix(in oklab, var(--ink) 12%, transparent);
   --color-muted: color-mix(in oklab, var(--ink) 58%, transparent);
   --color-cream: color-mix(in oklab, var(--paper) 70%, white);
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system, "SF Pro Text", sans-serif;
-  --font-display: var(--font-serif), "Times New Roman", serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, -apple-system, "SF Pro Text", sans-serif;
+  --font-display: var(--font-brico), var(--font-body), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-body), ui-sans-serif, sans-serif;
   --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-expo: cubic-bezier(0.87, 0, 0.13, 1);
 }
 
 :root {
-  --paper: #f5f0e8;
-  --ink: #141210;
-  --accent: #d4572a;
-  --accent-soft: #f2c48d;
+  --paper: #f2eee6;
+  --ink: #0f0f12;
+  --accent: #2f3cff;
+  --accent-soft: #ffc83d;
   --nav-h: 76px;
 }
 
@@ -48,8 +48,7 @@ html.lenis body {
 
 body {
   font-family: var(--font-sans);
-  font-feature-settings: "ss01", "cv11";
-  letter-spacing: -0.011em;
+  letter-spacing: -0.006em;
 }
 
 ::selection {
@@ -58,22 +57,44 @@ body {
 }
 
 /* ───────── Typography system ───────── */
+/* Display: a condensed, heavy grotesk — no serifs, no italics. */
 .display {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.035em;
-  line-height: 0.92;
+  font-weight: 650;
+  font-stretch: 84%;
+  font-variation-settings: "opsz" 96;
+  letter-spacing: -0.022em;
+  line-height: 0.9;
 }
 .display em,
-.display i {
-  font-style: italic;
-  letter-spacing: -0.02em;
+.display i,
+.display .italic,
+.display.italic {
+  font-style: normal;
+  color: var(--accent);
+}
+/* Giant uppercase headline type */
+.mega {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 78%;
+  font-variation-settings: "opsz" 96;
+  letter-spacing: -0.018em;
+  word-spacing: 0.06em;
+  line-height: 0.84;
+  text-transform: uppercase;
 }
 .eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
+  font-weight: 600;
   font-size: 11px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+/* Highlighter swipe for accent words */
+.mark {
+  background: linear-gradient(var(--accent-soft), var(--accent-soft)) no-repeat 0 88% / 100% 0.32em;
+  padding: 0 0.04em;
 }
 .text-balance {
   text-wrap: balance;
@@ -169,4 +190,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 html.intro-skip [data-intro] {
   display: none !important;
+}
+
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 40s linear infinite; }
+.spin-rev { animation: spin-slow 28s linear infinite reverse; }
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--ink);
 }

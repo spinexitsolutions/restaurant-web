@@ -26,7 +26,7 @@ export default async function Home() {
   const offers = db.offers.filter((o) => o.active);
 
   const render: Record<HomeSectionId, () => React.ReactNode> = {
-    hero: () => <Hero />,
+    hero: () => <Hero dishes={featured} />,
     manifesto: () => <Manifesto images={[featured[0]?.image, featured[3]?.image, featured[5]?.image].filter(Boolean) as string[]} />,
     signatures: () => (featured.length ? <Signatures items={featured} /> : null),
     story: () => <Story />,

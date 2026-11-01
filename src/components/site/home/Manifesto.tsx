@@ -22,8 +22,8 @@ export default function Manifesto({ images }: { images: string[] }) {
       <div className="marquee-paused overflow-hidden border-y border-line py-5">
         <div className="marquee flex w-max gap-10 whitespace-nowrap">
           {[...items, ...items, ...items, ...items].map((m, i) => (
-            <span key={i} className="display flex items-center gap-10 text-4xl sm:text-6xl">
-              <span className={i % 2 ? "italic text-accent" : ""}>{m}</span>
+            <span key={i} className="mega flex items-center gap-10 text-5xl font-bold sm:text-7xl">
+              <span className={i % 2 ? "outline-text" : ""}>{m}</span>
               <span className="text-2xl text-accent">✦</span>
             </span>
           ))}

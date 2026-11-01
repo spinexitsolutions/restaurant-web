@@ -170,10 +170,10 @@ export function createSeed(): Database {
         tagline: "A modern Indian table",
         description:
           "Noor is a modern Indian kitchen & bar in Bandra — where four generations of family recipes meet fire, seasonality and a little bit of theatre.",
-        accent: "#D4572A",
-        accentSoft: "#F2C48D",
-        ink: "#141210",
-        paper: "#F5F0E8",
+        accent: "#2F3CFF",
+        accentSoft: "#FFC83D",
+        ink: "#0F0F12",
+        paper: "#F2EEE6",
       },
       contact: {
         phone: "+91 98200 12345",
@@ -211,9 +211,9 @@ export function createSeed(): Database {
         link: "/events",
       },
       hero: {
-        eyebrow: "Modern Indian Kitchen & Bar · Est. 1986",
-        title: "Cooked over fire,",
-        titleAccent: "served with soul.",
+        eyebrow: "Modern Indian Kitchen & Bar · Bandra, Mumbai",
+        title: "Fire-led",
+        titleAccent: "Indian table",
         subtitle:
           "Heirloom recipes, rewritten with seasonal produce and a wood-fired tandoor. Dinner, drinks and the kind of evenings you remember.",
         image: IMG.interiorDark,
