@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { motion, useMotionTemplate, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ChevronRight } from "lucide-react";
 import { openStatus } from "@/lib/format";
 import { useIntro, useSite } from "../providers";
 import { EASE } from "../motion";
+import Btn, { TextLink } from "../Button";
 
 /**
  * Apple-style hero: a calm, centred headline with a large rounded photo
@@ -77,16 +76,8 @@ export default function Hero() {
             {h.subtitle}
           </motion.p>
           <motion.div {...fade(0.55)} className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
-            <Link
-              href="/reserve"
-              className="flex h-12 items-center rounded-full bg-accent px-6 text-[15px] font-medium text-white transition hover:brightness-110 active:scale-[0.97]"
-            >
-              {h.ctaPrimary}
-            </Link>
-            <Link href="/menu" className="group flex items-center gap-0.5 text-[17px] text-accent">
-              {h.ctaSecondary}
-              <ChevronRight size={18} className="transition-transform group-hover:translate-x-0.5" />
-            </Link>
+            <Btn href="/reserve">{h.ctaPrimary}</Btn>
+            <TextLink href="/menu">{h.ctaSecondary}</TextLink>
           </motion.div>
         </motion.div>
 

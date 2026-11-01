@@ -149,3 +149,112 @@ html.intro-skip [data-intro] {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ───────── Buttons: rolling label + expanding fill ─────────
+   The icon's circle is the "fill": on hover it grows to cover the
+   whole pill while the label rolls up to a fresh copy of itself. */
+.btn {
+  --b-bg: var(--accent);
+  --b-fg: #fff;
+  --b-fill: var(--ink);
+  --b-fill-fg: #fff;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+  padding: 0 6px 0 24px;
+  border-radius: 999px;
+  background: var(--b-bg);
+  color: var(--b-fg);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: transform 0.25s var(--ease-apple), color 0.45s var(--ease-apple), box-shadow 0.4s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active { transform: scale(0.96); }
+.btn:disabled { opacity: 0.5; pointer-events: none; }
+.btn-sm { height: 42px; font-size: 14px; padding-left: 18px; gap: 10px; }
+.btn-lg { height: 60px; font-size: 16px; padding-left: 28px; }
+.btn-block { width: 100%; justify-content: space-between; }
+.btn-noicon { padding: 0 24px; }
+.btn-label { position: relative; display: block; overflow: hidden; height: 1.25em; line-height: 1.25em; }
+.btn-label > span { display: block; transition: transform 0.6s var(--ease-apple); }
+.btn-label > span::after { content: attr(data-text); display: block; }
+.btn-ico {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 999px;
+  color: var(--b-fill-fg);
+}
+.btn-sm .btn-ico { width: 32px; height: 32px; }
+.btn-lg .btn-ico { width: 48px; height: 48px; }
+.btn-ico::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 999px;
+  background: var(--b-fill);
+  transition: transform 0.7s var(--ease-apple);
+}
+.btn-ico svg { transition: transform 0.6s var(--ease-apple); }
+.btn-noicon::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 100%;
+  width: 120%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: var(--b-fill);
+  transform: translate(-50%, 0) scale(0);
+  transition: transform 0.7s var(--ease-apple);
+}
+@media (hover: hover) {
+  .btn:hover { color: var(--b-fill-fg); box-shadow: 0 12px 30px -12px color-mix(in oklab, var(--b-fill) 60%, transparent); }
+  .btn:hover .btn-label > span { transform: translateY(-50%); }
+  .btn:hover .btn-ico::before { transform: scale(14); }
+  .btn:hover .btn-ico svg { transform: rotate(45deg); }
+  .btn-noicon:hover::before { transform: translate(-50%, -60%) scale(1); }
+}
+.btn-dark { --b-bg: var(--ink); --b-fill: var(--accent); }
+.btn-light { --b-bg: #fff; --b-fg: var(--ink); --b-fill: var(--accent); --b-fill-fg: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 6px 20px -10px rgba(0, 0, 0, 0.15); }
+.btn-glass { --b-bg: rgba(255, 255, 255, 0.14); --b-fg: #fff; --b-fill: #fff; --b-fill-fg: var(--ink); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25); }
+.btn-outline { --b-bg: transparent; --b-fg: var(--ink); --b-fill: var(--ink); --b-fill-fg: #fff; box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink) 18%, transparent); }
+
+/* Text link with a drawn underline + chevron */
+.link-u {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--accent);
+  font-weight: 500;
+}
+.link-u::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 18px;
+  bottom: -2px;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-apple);
+}
+.link-u svg { transition: transform 0.4s var(--ease-apple); }
+@media (hover: hover) {
+  .link-u:hover::after { transform: scaleX(1); transform-origin: left; }
+  .link-u:hover svg { transform: translateX(3px); }
+}

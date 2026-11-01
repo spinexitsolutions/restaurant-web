@@ -7,6 +7,7 @@ import clsx from "clsx";
 import type { Faq } from "@/lib/types";
 import { Field } from "./ReserveWizard";
 import { EASE } from "./motion";
+import Btn from "./Button";
 
 const SUBJECTS = ["General enquiry", "Private dining", "Feedback", "Press", "Careers"];
 
@@ -53,9 +54,9 @@ export default function ContactForm({ initialSubject }: { initialSubject?: strin
             </div>
             <textarea required rows={5} placeholder="How can we help?" value={f.message} onChange={(e) => setF({ ...f, message: e.target.value })} className="mt-3 w-full rounded-[18px] bg-paper p-4 text-[16px] outline-none ring-1 ring-ink/10 placeholder:text-muted focus:ring-ink/40" />
             {err && <p className="mt-2 text-[14px] text-red-600">{err}</p>}
-            <motion.button whileTap={{ scale: 0.97 }} disabled={state === "loading"} className="mt-5 flex h-14 w-full items-center justify-center gap-2 rounded-full bg-ink font-medium text-paper transition hover:bg-accent sm:w-auto sm:px-8">
-              {state === "loading" ? <Loader2 className="animate-spin" size={18} /> : <>Send message <ArrowRight size={18} /></>}
-            </motion.button>
+            <Btn type="submit" disabled={state === "loading"} className="mt-5" icon={state === "loading" ? <Loader2 className="animate-spin" size={18} /> : undefined}>
+              Send message
+            </Btn>
           </motion.form>
         )}
       </AnimatePresence>

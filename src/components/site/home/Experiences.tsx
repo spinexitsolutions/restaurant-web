@@ -8,6 +8,7 @@ import type { EventItem } from "@/lib/types";
 import { fmtDate, money, to12h } from "@/lib/format";
 import { useSite } from "../providers";
 import { RevealText, SectionLabel } from "../motion";
+import Btn from "../Button";
 
 /** Stacking cards: each event pins and gently scales back as the next arrives. */
 export default function Experiences({ events }: { events: EventItem[] }) {
@@ -60,9 +61,7 @@ function Card({ e, i, total }: { e: EventItem; i: number; total: number }) {
                 <span className="flex items-center gap-2"><CalendarDays size={15} /> {fmtDate(e.date, { weekday: "short", day: "numeric", month: "short" })} · {to12h(e.time)}</span>
                 <span className="flex items-center gap-2"><Users size={15} /> {money(e.price, s.ordering.currency)} pp</span>
               </div>
-              <Link href={`/reserve?occasion=${encodeURIComponent(e.title)}&date=${e.date}&time=${e.time}`} className="flex h-12 items-center gap-2 rounded-full bg-paper px-6 text-[14px] font-medium text-ink">
-                Book seats <ArrowUpRight size={16} />
-              </Link>
+              <Btn href={`/reserve?occasion=${encodeURIComponent(e.title)}&date=${e.date}&time=${e.time}`} variant="light" size="sm">Book seats</Btn>
             </div>
           </div>
         </div>

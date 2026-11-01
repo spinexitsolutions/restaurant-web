@@ -12,6 +12,7 @@ import { useCart, useSite } from "./providers";
 import { EASE } from "./motion";
 import { Field } from "./ReserveWizard";
 import AddButton from "./home/AddButton";
+import Btn from "./Button";
 
 export default function Checkout({ suggestions }: { suggestions: MenuItem[] }) {
   const s = useSite();
@@ -213,9 +214,9 @@ export default function Checkout({ suggestions }: { suggestions: MenuItem[] }) {
           </div>
           {subtotal < o.minOrder && <p className="mt-3 text-[13px] text-amber-300">Minimum order is {money(o.minOrder, o.currency)}.</p>}
           {error && <p className="mt-3 text-[13px] text-red-300">{error}</p>}
-          <motion.button whileTap={{ scale: 0.97 }} disabled={loading || subtotal < o.minOrder} className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-full bg-accent font-medium disabled:opacity-50">
-            {loading ? <Loader2 className="animate-spin" size={18} /> : <>Place order · {money(total, o.currency)}</>}
-          </motion.button>
+          <Btn type="submit" size="lg" block disabled={loading || subtotal < o.minOrder} className="mt-6" icon={loading ? <Loader2 className="animate-spin" size={18} /> : undefined}>
+            {`Place order · ${money(total, o.currency)}`}
+          </Btn>
         </div>
       </aside>
     </form>

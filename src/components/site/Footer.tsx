@@ -78,7 +78,7 @@ export default function Footer() {
         <span>.</span>
       </motion.div>
 
-      <div className="relative mx-auto flex max-w-[1400px] flex-col gap-2 border-t border-ink/10 px-5 py-6 text-[12px] text-muted sm:flex-row sm:justify-between sm:px-10">
+      <div className="relative mx-auto flex max-w-[1400px] flex-col gap-2 border-t border-ink/10 px-5 pb-28 pt-6 text-[12px] text-muted lg:pb-6 sm:flex-row sm:justify-between sm:px-10">
         <span>© {new Date().getFullYear()} {s.brand.name}. All rights reserved.</span>
         <span>Crafted with fire in {s.contact.city.split(" ")[0]}.</span>
       </div>

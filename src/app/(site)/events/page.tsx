@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { ArrowUpRight, CalendarDays, Clock, Users } from "lucide-react";
+import Btn from "@/components/site/Button";
+import { CalendarDays, Clock, Users } from "lucide-react";
 import { readDb } from "@/lib/db";
 import PageHeader from "@/components/site/PageHeader";
 import { FadeUp, SectionLabel } from "@/components/site/motion";
@@ -39,9 +39,7 @@ export default async function EventsPage() {
                   </div>
                   <div className="mt-6 flex items-center justify-between">
                     <span className="display text-[28px]">{money(e.price, cur)} <span className="font-sans text-[14px] text-muted">per guest</span></span>
-                    <Link href={`/reserve?occasion=${encodeURIComponent(e.title)}&date=${e.date}&time=${e.time}`} className="flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-[14px] text-paper transition hover:bg-accent">
-                      Book <ArrowUpRight size={16} />
-                    </Link>
+                    <Btn href={`/reserve?occasion=${encodeURIComponent(e.title)}&date=${e.date}&time=${e.time}`} variant="dark" size="sm">Book seats</Btn>
                   </div>
                 </div>
               </div>
@@ -57,9 +55,7 @@ export default async function EventsPage() {
             <SectionLabel className="mb-6 text-paper/60">Private dining</SectionLabel>
             <h2 className="display text-[40px] sm:text-[52px]">Your party, <em className="text-accent-soft">our fire.</em></h2>
             <p className="mt-5 text-paper/70">Birthdays, offsites, weddings and wrap parties for 10 to 80 guests. Custom menus, your playlist, our team.</p>
-            <Link href="/contact?subject=Private%20dining" className="mt-8 inline-flex h-14 items-center gap-2 rounded-full bg-paper px-7 font-medium text-ink">
-              Plan an event <ArrowUpRight size={18} />
-            </Link>
+            <Btn href="/contact?subject=Private%20dining" variant="light" size="lg" className="mt-8">Plan an event</Btn>
           </div>
         </div>
       </section>

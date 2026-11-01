@@ -3,11 +3,12 @@
 import { useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
-import { ArrowRight, Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { useSite } from "../providers";
 import { RevealText, SectionLabel } from "../motion";
 import { to12h } from "@/lib/format";
 import { IMG } from "@/lib/seed";
+import Btn from "../Button";
 
 export default function ReserveCta() {
   const s = useSite();
@@ -58,9 +59,7 @@ export default function ReserveCta() {
               <button type="button" aria-label="More guests" onClick={() => setGuests((g) => Math.min(s.reservations.maxGuests, g + 1))} className="grid h-9 w-9 place-items-center rounded-full bg-white/10 hover:bg-white/20"><Plus size={14} /></button>
             </span>
           </div>
-          <button className="flex h-16 items-center justify-center gap-2 rounded-[22px] bg-accent px-8 font-medium sm:rounded-full">
-            Find a table <ArrowRight size={18} />
-          </button>
+          <Btn type="submit" size="lg" className="justify-between self-center">Find a table</Btn>
         </form>
       </div>
     </section>

@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, CalendarPlus, Check, Clock, Loader2, Users } from "lucide-react";
 import clsx from "clsx";
 import { useSite } from "./providers";
+import Btn from "./Button";
 import { EASE } from "./motion";
 import { fmtDate, to12h } from "@/lib/format";
 
@@ -230,9 +231,9 @@ export default function ReserveWizard({ image, initial }: { image: string; initi
                   <button type="button" onClick={() => go(2)} className="flex items-center gap-2 text-[14px] text-muted hover:text-ink">
                     <ArrowLeft size={16} /> Back
                   </button>
-                  <motion.button whileTap={{ scale: 0.96 }} disabled={loading} className="flex h-14 items-center gap-2 rounded-full bg-ink px-7 font-medium text-paper hover:bg-accent">
-                    {loading ? <Loader2 className="animate-spin" size={18} /> : <>Confirm booking <ArrowRight size={18} /></>}
-                  </motion.button>
+                  <Btn type="submit" disabled={loading} icon={loading ? <Loader2 className="animate-spin" size={18} /> : undefined}>
+                    Confirm booking
+                  </Btn>
                 </div>
               </form>
             )}

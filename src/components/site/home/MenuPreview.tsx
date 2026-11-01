@@ -10,6 +10,7 @@ import { money } from "@/lib/format";
 import { useSite } from "../providers";
 import { EASE, RevealText, SectionLabel } from "../motion";
 import AddButton, { VegMark } from "./AddButton";
+import Btn from "../Button";
 
 export default function MenuPreview({ categories, items }: { categories: Category[]; items: MenuItem[] }) {
   const s = useSite();
@@ -110,12 +111,7 @@ export default function MenuPreview({ categories, items }: { categories: Categor
       </div>
 
       <div className="mt-12 flex justify-center">
-        <Link href="/menu" className="group flex h-14 items-center gap-3 rounded-full border border-ink/15 pl-7 pr-2 text-[15px] transition-colors hover:bg-ink hover:text-paper">
-          See the full menu
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-accent text-paper transition-transform group-hover:rotate-45">
-            <ArrowUpRight size={18} />
-          </span>
-        </Link>
+        <Btn href="/menu" variant="outline" size="lg">See the full menu</Btn>
       </div>
     </section>
   );

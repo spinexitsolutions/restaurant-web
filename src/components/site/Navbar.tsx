@@ -4,37 +4,47 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, LayoutGroup, motion, useMotionValueEvent, useScroll, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, ShoppingBag, X, CalendarDays } from "lucide-react";
+import { ArrowUpRight, CalendarDays, Home, LayoutGrid, ShoppingBag, UtensilsCrossed, X } from "lucide-react";
 import clsx from "clsx";
 import { useCart, useIntro, useLenis, useSite } from "./providers";
 import { EASE } from "./motion";
 import { openStatus } from "@/lib/format";
 import { Insta, Fb, XIcon, Yt } from "./icons";
+import Btn from "./Button";
 
 const LINKS = [
-  { href: "/", label: "Home", img: 0 },
-  { href: "/menu", label: "Menu", img: 1 },
-  { href: "/reserve", label: "Reserve", img: 2 },
-  { href: "/order", label: "Order online", img: 3 },
-  { href: "/events", label: "Experiences", img: 4 },
-  { href: "/gallery", label: "Gallery", img: 5 },
-  { href: "/journal", label: "Journal", img: 6 },
-  { href: "/about", label: "Our story", img: 7 },
-  { href: "/contact", label: "Contact", img: 8 },
+  { href: "/", label: "Home" },
+  { href: "/menu", label: "Menu" },
+  { href: "/reserve", label: "Reserve" },
+  { href: "/order", label: "Order online" },
+  { href: "/events", label: "Experiences" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/journal", label: "Journal" },
+  { href: "/about", label: "Our story" },
+  { href: "/contact", label: "Contact" },
 ];
-const INLINE = ["/menu", "/events", "/journal", "/about"];
+const INLINE = ["/menu", "/events", "/gallery", "/journal", "/about"];
+const SPRING = { type: "spring", stiffness: 380, damping: 34, mass: 0.8 } as const;
 
+const isActive = (path: string, href: string) => (href === "/" ? path === "/" : path.startsWith(href));
+
+/**
+ * "Converging islands" navbar.
+ * Desktop: logo, links and actions float as three separate pills at the top
+ * of the page; once you scroll they glide together and fuse into one capsule.
+ * Mobile: an iOS-style tab bar at the bottom with a raised Reserve button.
+ */
 export default function Navbar({ previews }: { previews: string[] }) {
   const s = useSite();
   const cart = useCart();
   const lenis = useLenis();
   const { done } = useIntro();
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  const [compact, setCompact] = useState(false);
-  const [hidden, setHidden] = useState(false);
+  const [sheet, setSheet] = useState(false);
+  const [merged, setMerged] = useState(false);
   const [atTop, setAtTop] = useState(true);
-  const [hover, setHover] = useState(0);
+  const [hover, setHover] = useState<string | null>(null);
+  const [preview, setPreview] = useState(0);
   const [status, setStatus] = useState<{ open: boolean; label: string } | null>(null);
   const [annDismissed, setAnnDismissed] = useState(false);
   const { scrollY, scrollYProgress } = useScroll();
@@ -46,24 +56,23 @@ export default function Navbar({ previews }: { previews: string[] }) {
     return () => clearInterval(t);
   }, [s.hours]);
 
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => setSheet(false), [pathname]);
   useEffect(() => {
-    if (open) lenis.current?.stop();
+    if (sheet) lenis.current?.stop();
     else if (done && !cart.open) lenis.current?.start();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setSheet(false);
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, lenis, done, cart.open]);
+  }, [sheet, lenis, done, cart.open]);
 
   useMotionValueEvent(scrollY, "change", (y) => {
-    const prev = scrollY.getPrevious() ?? 0;
     setAtTop(y < 40);
-    setCompact(y > 160);
-    setHidden(y > 600 && y > prev + 4 ? true : y < prev - 4 ? false : hidden);
+    setMerged(y > 90);
   });
 
-  const showAnn = s.announcement.enabled && !annDismissed && atTop && !open;
-  const top = showAnn ? 48 : 12;
+  const showAnn = s.announcement.enabled && !annDismissed && atTop && !sheet;
+  const top = showAnn ? 48 : 14;
+  const activeInline = INLINE.find((h) => pathname.startsWith(h));
 
   return (
     <>
@@ -75,222 +84,309 @@ export default function Navbar({ previews }: { previews: string[] }) {
             animate={{ y: 0, opacity: done ? 1 : 0 }}
             exit={{ y: -40, opacity: 0 }}
             transition={{ duration: 0.6, ease: EASE }}
-            className="fixed inset-x-0 top-0 z-50 flex h-9 items-center justify-center gap-3 bg-accent px-10 text-[12.5px] text-paper"
+            className="fixed inset-x-0 top-0 z-50 flex h-9 items-center justify-center gap-3 bg-ink px-10 text-[12.5px] text-white"
           >
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
             <Link href={s.announcement.link || "#"} className="truncate hover:underline underline-offset-4">
               {s.announcement.text}
             </Link>
-            <button aria-label="Dismiss" onClick={() => setAnnDismissed(true)} className="absolute right-3 opacity-70 hover:opacity-100">
+            <button aria-label="Dismiss" onClick={() => setAnnDismissed(true)} className="absolute right-3 opacity-60 hover:opacity-100">
               <X size={14} />
             </button>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Backdrop */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="fixed inset-0 z-40 bg-black/10 backdrop-blur-md"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setOpen(false)}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* The Island */}
+      {/* ───────── Desktop: converging islands ───────── */}
       <motion.header
-        className="fixed inset-x-0 z-50 flex justify-center px-3 pointer-events-none"
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ top, y: done ? (hidden && !open ? -110 : 0) : -100, opacity: done ? 1 : 0 }}
+        className="pointer-events-none fixed inset-x-0 z-50 hidden px-6 lg:block"
+        initial={{ y: -90, opacity: 0 }}
+        animate={{ top, y: done ? 0 : -90, opacity: done ? 1 : 0 }}
         transition={{ duration: 0.7, ease: EASE }}
       >
         <LayoutGroup>
-          <motion.nav
+          <motion.div
             layout
-            transition={{ layout: { duration: 0.65, ease: EASE } }}
-            style={{ borderRadius: open ? 30 : 999 }}
+            transition={SPRING}
+            style={{ borderRadius: 999 }}
             className={clsx(
-              "glass-light pointer-events-auto relative overflow-hidden text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.16)] ring-1 ring-black/[0.06]",
-              open ? "w-full max-w-[1040px] h-[calc(100dvh-24px)] sm:h-auto" : "w-auto"
+              "pointer-events-auto relative mx-auto flex items-center transition-[background-color,box-shadow] duration-500",
+              merged ? "glass-light w-fit gap-1 p-1.5 shadow-[0_10px_40px_-12px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.06]" : "w-full max-w-[1400px] justify-between gap-4 bg-transparent"
             )}
           >
-            {/* bar */}
-            <motion.div layout="position" className="flex h-14 items-center gap-1 pl-5 pr-1.5">
-              <Link href="/" className="group flex items-baseline gap-1.5 pr-2" aria-label={s.brand.name}>
-                <span className="text-[19px] font-semibold leading-none tracking-tight">{s.brand.name}</span>
-                <span className="h-1.5 w-1.5 rounded-full bg-accent transition-transform group-hover:scale-150" />
+            {/* Logo island */}
+            <motion.div layout transition={SPRING} style={{ borderRadius: 999 }} className={clsx("flex h-12 items-center transition-all duration-500", merged ? "pl-3 pr-1" : "glass-light px-5 shadow-[0_6px_24px_-12px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]")}>
+              <Link href="/" className="group flex items-center gap-2" aria-label={s.brand.name}>
+                <motion.span
+                  layout
+                  className="grid h-7 w-7 place-items-center rounded-full bg-accent text-[13px] font-semibold text-white transition-transform duration-500 group-hover:rotate-[360deg]"
+                >
+                  {s.brand.name[0]}
+                </motion.span>
+                <motion.span layout="position" className="text-[17px] font-semibold tracking-tight">
+                  {s.brand.name}
+                </motion.span>
               </Link>
-
               <AnimatePresence initial={false}>
-                {!compact && !open && status && (
+                {!merged && status && (
                   <motion.span
-                    initial={{ opacity: 0, width: 0 }}
-                    animate={{ opacity: 1, width: "auto" }}
-                    exit={{ opacity: 0, width: 0 }}
-                    transition={{ duration: 0.45, ease: EASE }}
-                    className="hidden items-center gap-2 overflow-hidden whitespace-nowrap border-l border-ink/10 pl-3 pr-2 text-[12px] text-muted sm:flex"
+                    initial={{ opacity: 0, width: 0, marginLeft: 0 }}
+                    animate={{ opacity: 1, width: "auto", marginLeft: 14 }}
+                    exit={{ opacity: 0, width: 0, marginLeft: 0 }}
+                    transition={{ duration: 0.4, ease: EASE }}
+                    className="flex items-center gap-2 overflow-hidden whitespace-nowrap border-l border-ink/10 pl-3.5 text-[12.5px] text-muted"
                   >
-                    <span className={clsx("pulse-dot h-1.5 w-1.5 rounded-full", status.open ? "bg-emerald-400 text-emerald-400" : "bg-ink/30 text-ink/30")} />
+                    <span className={clsx("pulse-dot h-1.5 w-1.5 rounded-full", status.open ? "bg-emerald-500 text-emerald-500" : "bg-ink/30 text-ink/30")} />
                     {status.label}
                   </motion.span>
                 )}
               </AnimatePresence>
-
-              {!open && (
-                <div className="hidden items-center lg:flex" onMouseLeave={() => setHover(-1)}>
-                  {LINKS.filter((l) => INLINE.includes(l.href)).map((l, i) => (
-                    <Link
-                      key={l.href}
-                      href={l.href}
-                      onMouseEnter={() => setHover(i + 100)}
-                      className={clsx("relative px-3.5 py-2 text-[13.5px] transition-colors", pathname.startsWith(l.href) ? "text-ink" : "text-ink/60 hover:text-ink")}
-                    >
-                      {hover === i + 100 && (
-                        <motion.span layoutId="nav-hover" className="absolute inset-0 rounded-full bg-ink/[0.05]" transition={{ duration: 0.35, ease: EASE }} />
-                      )}
-                      <span className="relative">{l.label}</span>
-                      {pathname.startsWith(l.href) && <span className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-accent" />}
-                    </Link>
-                  ))}
-                </div>
-              )}
-
-              <div className="ml-auto flex items-center gap-1 pl-2">
-                {!open && (
-                  <Link
-                    href="/reserve"
-                    className="hidden h-11 items-center gap-2 rounded-full bg-accent px-4 text-[13px] font-medium text-white transition-transform hover:scale-[1.03] active:scale-95 sm:flex"
-                  >
-                    <CalendarDays size={15} /> Book
-                  </Link>
-                )}
-                <button
-                  aria-label="Open bag"
-                  onClick={() => {
-                    setOpen(false);
-                    cart.setOpen(true);
-                  }}
-                  className="relative grid h-11 w-11 place-items-center rounded-full transition-colors hover:bg-ink/5"
-                >
-                  <ShoppingBag size={18} strokeWidth={1.6} />
-                  <AnimatePresence>
-                    {cart.count > 0 && (
-                      <motion.span
-                        key={cart.bump}
-                        initial={{ scale: 0.4 }}
-                        animate={{ scale: [1.5, 1] }}
-                        exit={{ scale: 0 }}
-                        transition={{ duration: 0.45, ease: EASE }}
-                        className="absolute right-1 top-1 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-accent px-1 text-[10px] font-semibold text-white"
-                      >
-                        {cart.count}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </button>
-                <button
-                  aria-label={open ? "Close menu" : "Open menu"}
-                  aria-expanded={open}
-                  onClick={() => setOpen((v) => !v)}
-                  className="relative grid h-11 w-11 place-items-center rounded-full bg-ink/[0.05] transition-colors hover:bg-ink/10"
-                >
-                  <motion.span className="absolute h-[1.5px] w-4 rounded bg-ink" animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -3 }} transition={{ duration: 0.4, ease: EASE }} />
-                  <motion.span className="absolute h-[1.5px] w-4 rounded bg-ink" animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 3 }} transition={{ duration: 0.4, ease: EASE }} />
-                </button>
-              </div>
             </motion.div>
 
-            {/* expanded panel */}
-            <AnimatePresence>
-              {open && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1, transition: { delay: 0.25, duration: 0.4 } }}
-                  exit={{ opacity: 0, transition: { duration: 0.15 } }}
-                  className="flex h-[calc(100%-56px)] flex-col px-5 pb-5 sm:h-auto sm:px-7 sm:pb-7"
-                >
-                  <div className="grid flex-1 gap-8 overflow-y-auto pt-4 no-scrollbar sm:grid-cols-[1.25fr_1fr] sm:pt-6">
-                    <ul onMouseLeave={() => setHover(LINKS.findIndex((l) => l.href === pathname))}>
-                      {LINKS.map((l, i) => {
-                        const active = l.href === "/" ? pathname === "/" : pathname.startsWith(l.href);
-                        return (
-                          <li key={l.href} className="overflow-hidden">
-                            <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 0.7, ease: EASE, delay: 0.2 + i * 0.04 }}>
-                              <Link
-                                href={l.href}
-                                onMouseEnter={() => setHover(i)}
-                                className="group flex items-baseline gap-4 py-1 sm:py-0.5"
-                              >
-                                <span className="w-6 text-[11px] text-ink/35">{String(i + 1).padStart(2, "0")}</span>
-                                <span
-                                  className={clsx(
-                                    "display text-[36px] leading-[1.15] transition-all duration-500 sm:text-[44px]",
-                                    active ? "text-accent" : "text-ink group-hover:translate-x-1.5 group-hover:text-accent"
-                                  )}
-                                >
-                                  {l.label}
-                                </span>
-                              </Link>
-                            </motion.div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                    <div className="hidden flex-col gap-4 sm:flex">
-                      <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-mist">
-                        <AnimatePresence mode="popLayout">
-                          <motion.img
-                            key={hover}
-                            src={previews[Math.max(0, hover) % previews.length]}
-                            alt=""
-                            className="absolute inset-0 h-full w-full object-cover"
-                            initial={{ opacity: 0, scale: 1.15, filter: "blur(10px)" }}
-                            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.7, ease: EASE }}
-                          />
-                        </AnimatePresence>
-                        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent" />
-                        <p className="absolute bottom-4 left-4 right-4 text-sm text-paper/80">{s.brand.tagline}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0, transition: { delay: 0.5 } }}
-                    className="mt-5 grid gap-4 border-t border-ink/10 pt-5 text-[13px] text-muted sm:grid-cols-3 sm:items-end"
+            {/* Links island */}
+            <motion.nav
+              layout
+              transition={SPRING}
+              style={{ borderRadius: 999 }}
+              onMouseLeave={() => setHover(null)}
+              className={clsx("relative flex h-12 items-center px-1.5 transition-all duration-500", !merged && "glass-light shadow-[0_6px_24px_-12px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]")}
+            >
+              {LINKS.filter((l) => INLINE.includes(l.href)).map((l) => {
+                const active = activeInline === l.href;
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    onMouseEnter={() => setHover(l.href)}
+                    className={clsx("relative px-4 py-2 text-[14px] transition-colors duration-300", active || hover === l.href ? "text-ink" : "text-ink/60")}
                   >
-                    <div>
-                      <div className="eyebrow mb-1 text-ink/40">Visit</div>
-                      {s.contact.address}, {s.contact.city}
-                    </div>
-                    <div>
-                      <div className="eyebrow mb-1 text-ink/40">Talk</div>
-                      <a href={`tel:${s.contact.phone}`} className="block hover:text-ink">{s.contact.phone}</a>
-                      <a href={`mailto:${s.contact.email}`} className="block hover:text-ink">{s.contact.email}</a>
-                    </div>
-                    <div className="flex items-center justify-between gap-3 sm:justify-end">
-                      <Socials />
-                      <Link href="/reserve" className="flex h-11 items-center gap-2 rounded-full bg-accent px-5 font-medium text-white">
-                        Reserve <ArrowUpRight size={16} />
-                      </Link>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                    {hover === l.href && (
+                      <motion.span layoutId="nav-hover" className="absolute inset-0 rounded-full bg-ink/[0.06]" transition={{ type: "spring", stiffness: 500, damping: 38 }} />
+                    )}
+                    <span className="relative">{l.label}</span>
+                    {active && (
+                      <motion.span
+                        layoutId="nav-active"
+                        className="absolute -bottom-0.5 left-1/2 h-[3px] w-4 -translate-x-1/2 rounded-full bg-accent"
+                        transition={{ type: "spring", stiffness: 420, damping: 30 }}
+                      />
+                    )}
+                  </Link>
+                );
+              })}
+            </motion.nav>
 
-            {/* scroll progress hairline */}
-            {!open && <motion.div style={{ scaleX: progress }} className="absolute bottom-0 left-6 right-6 h-px origin-left bg-accent/80" />}
-          </motion.nav>
+            {/* Actions island */}
+            <motion.div layout transition={SPRING} style={{ borderRadius: 999 }} className={clsx("flex h-12 items-center gap-1 transition-all duration-500", !merged && "glass-light pl-1.5 pr-1.5 shadow-[0_6px_24px_-12px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]")}>
+              <BagButton onClick={() => cart.setOpen(true)} count={cart.count} bump={cart.bump} />
+              <button
+                aria-label="All pages"
+                onClick={() => setSheet(true)}
+                className="grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-ink/[0.06]"
+              >
+                <LayoutGrid size={17} strokeWidth={1.7} />
+              </button>
+              <Btn href="/reserve" size="sm" className="!h-10 !pl-4">
+                Book a table
+              </Btn>
+            </motion.div>
+
+            {/* scroll progress ring under the capsule */}
+            {merged && <motion.div style={{ scaleX: progress }} className="absolute inset-x-8 -bottom-[3px] h-[2px] origin-left rounded-full bg-accent" />}
+          </motion.div>
         </LayoutGroup>
       </motion.header>
 
-      <MobileDock visible={done && compact && !open && !cart.open && pathname !== "/reserve" && !pathname.startsWith("/order")} />
+      {/* ───────── Mobile: top logo chip ───────── */}
+      <motion.div
+        className="fixed inset-x-3 z-50 flex items-center justify-between lg:hidden"
+        initial={{ opacity: 0, y: -40 }}
+        animate={{ top: showAnn ? 46 : 10, opacity: done ? (merged ? 0 : 1) : 0, y: done ? (merged ? -20 : 0) : -40 }}
+        transition={{ duration: 0.5, ease: EASE }}
+        style={{ pointerEvents: merged ? "none" : "auto" }}
+      >
+        <Link href="/" className="glass-light flex h-11 items-center gap-2 rounded-full pl-1.5 pr-4 shadow-[0_6px_20px_-10px_rgba(0,0,0,0.2)] ring-1 ring-black/5">
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-accent text-[14px] font-semibold text-white">{s.brand.name[0]}</span>
+          <span className="text-[16px] font-semibold tracking-tight">{s.brand.name}</span>
+        </Link>
+        {status && (
+          <span className="glass-light flex h-11 items-center gap-2 rounded-full px-4 text-[12.5px] text-muted shadow-[0_6px_20px_-10px_rgba(0,0,0,0.2)] ring-1 ring-black/5">
+            <span className={clsx("pulse-dot h-1.5 w-1.5 rounded-full", status.open ? "bg-emerald-500 text-emerald-500" : "bg-ink/30 text-ink/30")} />
+            {status.label}
+          </span>
+        )}
+      </motion.div>
+
+      {/* ───────── Mobile: iOS-style tab bar ───────── */}
+      <TabBar visible={done && !cart.open} onMore={() => setSheet((v) => !v)} sheetOpen={sheet} />
+
+      {/* ───────── Sheet with every page ───────── */}
+      <AnimatePresence>
+        {sheet && (
+          <>
+            <motion.div className="fixed inset-0 z-[55] bg-black/25 backdrop-blur-md" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSheet(false)} />
+            <motion.div
+              data-lenis-prevent
+              initial={{ y: "100%", opacity: 0.6 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "100%", opacity: 0.6 }}
+              transition={{ type: "spring", stiffness: 260, damping: 32 }}
+              drag="y"
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={{ top: 0, bottom: 0.6 }}
+              onDragEnd={(_, i) => i.offset.y > 120 && setSheet(false)}
+              className="fixed inset-x-0 bottom-0 z-[56] max-h-[88dvh] overflow-y-auto rounded-t-[32px] bg-white px-5 pb-28 pt-3 lg:inset-x-auto lg:bottom-auto lg:left-1/2 lg:top-20 lg:w-[960px] lg:-translate-x-1/2 lg:rounded-[32px] lg:pb-7 lg:pt-7 lg:shadow-2xl"
+            >
+              <div className="mx-auto mb-4 h-1.5 w-10 rounded-full bg-ink/15 lg:hidden" />
+              <div className="mb-5 flex items-center justify-between">
+                <span className="text-[13px] font-medium text-muted">Explore {s.brand.name}</span>
+                <button onClick={() => setSheet(false)} aria-label="Close" className="hidden h-10 w-10 place-items-center rounded-full bg-ink/5 hover:bg-ink/10 lg:grid">
+                  <X size={18} />
+                </button>
+              </div>
+              <div className="grid gap-8 lg:grid-cols-[1.3fr_1fr]">
+                <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3" onMouseLeave={() => setPreview(0)}>
+                  {LINKS.map((l, i) => {
+                    const active = isActive(pathname, l.href);
+                    return (
+                      <motion.li key={l.href} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 + i * 0.03, duration: 0.5, ease: EASE }}>
+                        <Link
+                          href={l.href}
+                          onMouseEnter={() => setPreview(i)}
+                          className={clsx(
+                            "group flex h-24 flex-col justify-between rounded-[20px] p-4 transition-colors duration-300",
+                            active ? "bg-accent text-white" : "bg-mist hover:bg-ink hover:text-white"
+                          )}
+                        >
+                          <span className={clsx("text-[11px] tabular-nums", active ? "text-white/70" : "text-muted group-hover:text-white/60")}>{String(i + 1).padStart(2, "0")}</span>
+                          <span className="flex items-end justify-between text-[17px] font-semibold tracking-tight">
+                            {l.label}
+                            <ArrowUpRight size={16} className="opacity-0 transition-all duration-300 group-hover:opacity-100" />
+                          </span>
+                        </Link>
+                      </motion.li>
+                    );
+                  })}
+                </ul>
+                <div className="hidden flex-col gap-4 lg:flex">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-[22px] bg-mist">
+                    <AnimatePresence mode="popLayout">
+                      <motion.img
+                        key={preview}
+                        src={previews[preview % previews.length]}
+                        alt=""
+                        className="absolute inset-0 h-full w-full object-cover"
+                        initial={{ opacity: 0, scale: 1.08 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.6, ease: EASE }}
+                      />
+                    </AnimatePresence>
+                  </div>
+                  <div className="text-[14px] text-muted">
+                    {s.contact.address}, {s.contact.city}
+                    <br />
+                    <a href={`tel:${s.contact.phone}`} className="text-ink hover:text-accent">{s.contact.phone}</a> · <a href={`mailto:${s.contact.email}`} className="text-ink hover:text-accent">{s.contact.email}</a>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6 flex items-center justify-between gap-3 border-t border-line pt-5">
+                <Socials />
+                <Btn href="/reserve" size="sm">Book a table</Btn>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
+  );
+}
+
+function BagButton({ onClick, count, bump }: { onClick: () => void; count: number; bump: number }) {
+  return (
+    <button aria-label="Open bag" onClick={onClick} className="relative grid h-10 w-10 place-items-center rounded-full transition-colors hover:bg-ink/[0.06]">
+      <ShoppingBag size={17} strokeWidth={1.7} />
+      <AnimatePresence>
+        {count > 0 && (
+          <motion.span
+            key={bump}
+            initial={{ scale: 0.4 }}
+            animate={{ scale: [1.5, 1] }}
+            exit={{ scale: 0 }}
+            transition={{ duration: 0.45, ease: EASE }}
+            className="absolute right-0.5 top-0.5 grid h-[17px] min-w-[17px] place-items-center rounded-full bg-accent px-1 text-[10px] font-semibold text-white"
+          >
+            {count}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </button>
+  );
+}
+
+function TabBar({ visible, onMore, sheetOpen }: { visible: boolean; onMore: () => void; sheetOpen: boolean }) {
+  const pathname = usePathname();
+  const cart = useCart();
+  const tabs = [
+    { key: "/", label: "Home", Icon: Home, href: "/" },
+    { key: "/menu", label: "Menu", Icon: UtensilsCrossed, href: "/menu" },
+    { key: "reserve", label: "Reserve", Icon: CalendarDays, href: "/reserve" },
+    { key: "bag", label: "Bag", Icon: ShoppingBag },
+    { key: "more", label: "More", Icon: LayoutGrid },
+  ];
+  const current = sheetOpen ? "more" : pathname === "/" ? "/" : pathname.startsWith("/menu") ? "/menu" : pathname.startsWith("/reserve") ? "reserve" : pathname.startsWith("/order") ? "bag" : "";
+
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.nav
+          initial={{ y: 120, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 120, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 260, damping: 30 }}
+          className="fixed inset-x-3 z-[57] lg:hidden"
+          style={{ bottom: "max(10px, env(safe-area-inset-bottom))" }}
+          aria-label="Quick navigation"
+        >
+          <div className="glass-light mx-auto flex h-[66px] max-w-md items-center justify-between rounded-[26px] px-2 shadow-[0_16px_40px_-14px_rgba(0,0,0,0.3)] ring-1 ring-black/[0.06]">
+            {tabs.map(({ key, label, Icon, href }) => {
+              const active = current === key;
+              if (key === "reserve") {
+                return (
+                  <Link key={key} href={href!} aria-label="Reserve a table" className="relative -mt-7 flex flex-col items-center gap-1">
+                    <motion.span
+                      whileTap={{ scale: 0.9 }}
+                      className="grid h-14 w-14 place-items-center rounded-full bg-accent text-white shadow-[0_10px_24px_-8px_var(--accent)] ring-4 ring-paper"
+                    >
+                      <Icon size={22} strokeWidth={1.8} />
+                    </motion.span>
+                    <span className={clsx("text-[10.5px] font-medium", active ? "text-accent" : "text-ink/60")}>{label}</span>
+                  </Link>
+                );
+              }
+              const content = (
+                <>
+                  {active && <motion.span layoutId="tab-active" className="absolute inset-x-1 inset-y-1.5 rounded-[18px] bg-ink/[0.06]" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}
+                  <span className="relative">
+                    <Icon size={21} strokeWidth={active ? 2 : 1.6} className={active ? "text-accent" : "text-ink/70"} />
+                    {key === "bag" && cart.count > 0 && (
+                      <motion.span key={cart.bump} animate={{ scale: [1.5, 1] }} className="absolute -right-2 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-accent px-1 text-[9px] font-semibold text-white">
+                        {cart.count}
+                      </motion.span>
+                    )}
+                  </span>
+                  <span className={clsx("relative text-[10.5px] font-medium", active ? "text-accent" : "text-ink/60")}>{label}</span>
+                </>
+              );
+              const cls = "relative flex h-full w-16 flex-col items-center justify-center gap-1";
+              if (key === "bag") return <button key={key} className={cls} onClick={() => cart.setOpen(true)} aria-label="Open bag">{content}</button>;
+              if (key === "more") return <button key={key} className={cls} onClick={onMore} aria-label="More pages">{content}</button>;
+              return <Link key={key} href={href!} className={cls}>{content}</Link>;
+            })}
+          </div>
+        </motion.nav>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -303,36 +399,12 @@ export function Socials({ className }: { className?: string }) {
     { href: s.socials.youtube, Icon: Yt, label: "YouTube" },
   ].filter((i) => i.href);
   return (
-    <div className={clsx("flex gap-1", className)}>
+    <div className={clsx("flex gap-1.5", className)}>
       {items.map(({ href, Icon, label }) => (
-        <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className="grid h-9 w-9 place-items-center rounded-full border border-current/15 opacity-70 transition hover:opacity-100">
+        <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className="grid h-9 w-9 place-items-center rounded-full bg-ink/[0.05] text-ink/70 transition hover:bg-accent hover:text-white">
           <Icon width={15} height={15} />
         </a>
       ))}
     </div>
-  );
-}
-
-function MobileDock({ visible }: { visible: boolean }) {
-  return (
-    <AnimatePresence>
-      {visible && (
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ duration: 0.5, ease: EASE }}
-          className="fixed inset-x-3 z-40 flex gap-2 sm:hidden"
-          style={{ bottom: "max(12px, env(safe-area-inset-bottom))" }}
-        >
-          <Link href="/order" className="glass-light flex h-13 flex-1 items-center justify-center gap-2 rounded-full py-3.5 text-sm font-medium text-ink shadow-lg ring-1 ring-black/5">
-            <ShoppingBag size={16} /> Order
-          </Link>
-          <Link href="/reserve" className="flex h-13 flex-1 items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-sm font-medium text-white shadow-lg shadow-accent/30">
-            <CalendarDays size={16} /> Reserve
-          </Link>
-        </motion.div>
-      )}
-    </AnimatePresence>
   );
 }

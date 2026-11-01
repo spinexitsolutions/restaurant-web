@@ -6,6 +6,7 @@ import { Minus, Plus, ShoppingBag, X, ArrowRight } from "lucide-react";
 import { useCart, useSite } from "./providers";
 import { EASE } from "./motion";
 import { money } from "@/lib/format";
+import Btn from "./Button";
 
 export default function CartDrawer() {
   const cart = useCart();
@@ -108,16 +109,9 @@ export default function CartDrawer() {
                   <span className="text-muted">Subtotal</span>
                   <span className="display text-[24px] tabular-nums">{money(cart.subtotal, o.currency)}</span>
                 </div>
-                <Link
-                  href="/order"
-                  onClick={() => cart.setOpen(false)}
-                  className="group flex h-14 w-full items-center justify-between rounded-full bg-ink pl-6 pr-2 text-paper"
-                >
-                  <span className="font-medium">Checkout</span>
-                  <span className="grid h-10 w-10 place-items-center rounded-full bg-accent transition-transform group-hover:translate-x-0.5">
-                    <ArrowRight size={18} />
-                  </span>
-                </Link>
+                <Btn href="/order" onClick={() => cart.setOpen(false)} variant="dark" size="lg" block icon={<ArrowRight size={18} />}>
+                  Checkout
+                </Btn>
                 <p className="mt-3 text-center text-[12px] text-muted">Taxes & delivery calculated at checkout · ~{o.etaMinutes} min</p>
               </div>
             )}
