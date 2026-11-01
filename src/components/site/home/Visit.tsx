@@ -25,7 +25,7 @@ export default function Visit() {
       </SectionLabel>
       <div className="grid gap-10 lg:grid-cols-2">
         <div>
-          <RevealText as="h2" text="Come say hello." className="display block text-[14vw] sm:text-7xl lg:text-8xl" />
+          <RevealText as="h2" text="Come say hello." className="display block text-[38px] sm:text-[56px] lg:text-[64px]" />
           <FadeUp delay={0.1} className="mt-10 space-y-8">
             {status && (
               <div className="inline-flex items-center gap-2 rounded-full bg-ink/5 px-4 py-2 text-[14px]">

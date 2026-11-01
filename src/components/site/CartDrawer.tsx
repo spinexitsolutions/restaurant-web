@@ -34,7 +34,7 @@ export default function CartDrawer() {
             <div className="flex items-center justify-between px-6 pb-4 pt-6">
               <div>
                 <div className="eyebrow text-muted">Your bag</div>
-                <div className="display text-4xl">{cart.count ? `${cart.count} item${cart.count > 1 ? "s" : ""}` : "Empty, for now"}</div>
+                <div className="display text-[28px]">{cart.count ? `${cart.count} item${cart.count > 1 ? "s" : ""}` : "Empty, for now"}</div>
               </div>
               <button aria-label="Close" onClick={() => cart.setOpen(false)} className="grid h-11 w-11 place-items-center rounded-full bg-ink/5 hover:bg-ink/10">
                 <X size={18} />
@@ -106,7 +106,7 @@ export default function CartDrawer() {
               <div className="border-t border-line p-6">
                 <div className="mb-4 flex items-baseline justify-between">
                   <span className="text-muted">Subtotal</span>
-                  <span className="display text-3xl tabular-nums">{money(cart.subtotal, o.currency)}</span>
+                  <span className="display text-[24px] tabular-nums">{money(cart.subtotal, o.currency)}</span>
                 </div>
                 <Link
                   href="/order"

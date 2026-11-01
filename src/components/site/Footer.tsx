@@ -17,19 +17,19 @@ export default function Footer() {
   const letterSpacing = useTransform(scrollYProgress, [0, 1], ["0.1em", "-0.04em"]);
 
   return (
-    <footer ref={ref} className="relative overflow-hidden bg-ink text-paper">
+    <footer ref={ref} className="relative overflow-hidden bg-mist text-ink">
       <div className="mx-auto max-w-[1400px] px-5 pt-20 sm:px-10 sm:pt-28">
         <div className="grid gap-14 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <div className="eyebrow mb-4 text-paper/50">The Noor letter</div>
-            <h3 className="display mb-6 max-w-md text-4xl sm:text-5xl">
-              Seasonal menus, secret suppers & <em className="text-accent-soft">first dibs.</em>
+            <div className="eyebrow mb-4 text-muted">The Noor letter</div>
+            <h3 className="display mb-6 max-w-md text-[24px] sm:text-[28px]">
+              Seasonal menus and secret suppers. <em>First dibs, in your inbox.</em>
             </h3>
-            <Newsletter />
+            <Newsletter dark={false} />
           </div>
           <div>
-            <div className="eyebrow mb-4 text-paper/50">Explore</div>
-            <ul className="space-y-2 text-paper/80">
+            <div className="eyebrow mb-4 text-muted">Explore</div>
+            <ul className="space-y-2 text-ink/80">
               {[
                 ["/menu", "Menu"],
                 ["/reserve", "Reservations"],
@@ -41,7 +41,7 @@ export default function Footer() {
                 ["/contact", "Contact & FAQ"],
               ].map(([h, l]) => (
                 <li key={h}>
-                  <Link href={h} className="transition hover:text-accent-soft">
+                  <Link href={h} className="transition hover:text-accent">
                     {l}
                   </Link>
                 </li>
@@ -49,36 +49,36 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <div className="eyebrow mb-4 text-paper/50">Hours</div>
-            <ul className="space-y-1.5 text-[14px] text-paper/80">
+            <div className="eyebrow mb-4 text-muted">Hours</div>
+            <ul className="space-y-1.5 text-[14px] text-ink/80">
               {s.hours.map((h) => (
                 <li key={h.day} className="flex justify-between gap-4">
-                  <span className="text-paper/50">{h.day.slice(0, 3)}</span>
+                  <span className="text-muted">{h.day.slice(0, 3)}</span>
                   <span className="tabular-nums">{h.closed ? "Closed" : `${to12h(h.open)} – ${to12h(h.close)}`}</span>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <div className="eyebrow mb-4 text-paper/50">Find us</div>
-            <address className="not-italic text-paper/80">
+            <div className="eyebrow mb-4 text-muted">Find us</div>
+            <address className="not-italic text-ink/80">
               {s.contact.address}
               <br />
               {s.contact.city}
             </address>
-            <a href={`tel:${s.contact.phone}`} className="mt-3 block text-paper/80 hover:text-paper">{s.contact.phone}</a>
-            <a href={`mailto:${s.contact.email}`} className="block text-paper/80 hover:text-paper">{s.contact.email}</a>
+            <a href={`tel:${s.contact.phone}`} className="mt-3 block text-ink/80 hover:text-ink">{s.contact.phone}</a>
+            <a href={`mailto:${s.contact.email}`} className="block text-ink/80 hover:text-ink">{s.contact.email}</a>
             <Socials className="mt-5" />
           </div>
         </div>
       </div>
 
-      <motion.div style={{ y, letterSpacing }} className="display pointer-events-none select-none whitespace-nowrap px-2 pt-10 text-center text-[31vw] leading-[0.78] text-paper">
+      <motion.div style={{ y, letterSpacing }} className="display pointer-events-none select-none whitespace-nowrap px-2 pt-16 text-center text-[30vw] leading-[0.8] text-ink/[0.07]">
         {s.brand.name}
-        <span className="text-accent">.</span>
+        <span>.</span>
       </motion.div>
 
-      <div className="relative mx-auto flex max-w-[1400px] flex-col gap-2 border-t border-white/10 px-5 py-6 text-[12px] text-paper/45 sm:flex-row sm:justify-between sm:px-10">
+      <div className="relative mx-auto flex max-w-[1400px] flex-col gap-2 border-t border-ink/10 px-5 py-6 text-[12px] text-muted sm:flex-row sm:justify-between sm:px-10">
         <span>© {new Date().getFullYear()} {s.brand.name}. All rights reserved.</span>
         <span>Crafted with fire in {s.contact.city.split(" ")[0]}.</span>
       </div>
@@ -105,7 +105,7 @@ export function Newsletter({ dark = true }: { dark?: boolean }) {
           setMsg(j.error);
         }
       }}
-      className={`relative flex max-w-md items-center rounded-full p-1.5 ring-1 ${dark ? "bg-white/5 ring-white/15" : "bg-ink/5 ring-ink/10"}`}
+      className={`relative flex max-w-md items-center rounded-full p-1.5 ring-1 ${dark ? "bg-white/5 ring-white/15" : "bg-white ring-ink/10"}`}
     >
       <input
         type="email"
@@ -121,7 +121,7 @@ export function Newsletter({ dark = true }: { dark?: boolean }) {
       <motion.button
         whileTap={{ scale: 0.94 }}
         disabled={state === "loading"}
-        className="grid h-11 min-w-11 place-items-center rounded-full bg-accent px-4 text-paper"
+        className="grid h-11 min-w-11 place-items-center rounded-full bg-accent px-4 text-white"
         aria-label="Subscribe"
       >
         {state === "done" ? (

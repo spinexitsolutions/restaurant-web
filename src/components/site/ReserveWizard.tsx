@@ -113,7 +113,7 @@ export default function ReserveWizard({ image, initial }: { image: string; initi
           >
             {step === 0 && (
               <div>
-                <h2 className="display text-5xl sm:text-6xl">How many of you?</h2>
+                <h2 className="display text-[34px] sm:text-[44px]">How many of you?</h2>
                 <div className="mt-10 grid grid-cols-4 gap-2 sm:grid-cols-6">
                   {Array.from({ length: r.maxGuests }, (_, i) => i + 1).map((n) => (
                     <motion.button
@@ -123,7 +123,7 @@ export default function ReserveWizard({ image, initial }: { image: string; initi
                         setGuests(n);
                         go(1);
                       }}
-                      className={clsx("display grid aspect-square place-items-center rounded-[20px] text-4xl transition-colors", guests === n ? "bg-ink text-paper" : "bg-paper ring-1 ring-ink/10 hover:ring-ink/40")}
+                      className={clsx("display grid aspect-square place-items-center rounded-[20px] text-[28px] transition-colors", guests === n ? "bg-ink text-paper" : "bg-paper ring-1 ring-ink/10 hover:ring-ink/40")}
                     >
                       {n}
                     </motion.button>
@@ -135,7 +135,7 @@ export default function ReserveWizard({ image, initial }: { image: string; initi
 
             {step === 1 && (
               <div>
-                <h2 className="display text-5xl sm:text-6xl">Pick a day.</h2>
+                <h2 className="display text-[34px] sm:text-[44px]">Pick a day.</h2>
                 <div className="mt-10 grid grid-cols-4 gap-2 sm:grid-cols-7" data-lenis-prevent>
                   {days.map((d) => (
                     <motion.button
@@ -153,7 +153,7 @@ export default function ReserveWizard({ image, initial }: { image: string; initi
                       )}
                     >
                       <span className="eyebrow text-[9px] opacity-60">{d.d.toLocaleDateString("en-IN", { weekday: "short" })}</span>
-                      <span className="display text-3xl">{d.d.getDate()}</span>
+                      <span className="display text-[24px]">{d.d.getDate()}</span>
                       <span className="text-[11px] opacity-60">{d.closed ? "Closed" : d.d.toLocaleDateString("en-IN", { month: "short" })}</span>
                     </motion.button>
                   ))}
@@ -163,7 +163,7 @@ export default function ReserveWizard({ image, initial }: { image: string; initi
 
             {step === 2 && (
               <div>
-                <h2 className="display text-5xl sm:text-6xl">What time?</h2>
+                <h2 className="display text-[34px] sm:text-[44px]">What time?</h2>
                 <p className="mt-2 text-muted">{fmtDate(date, { weekday: "long", day: "numeric", month: "long" })}</p>
                 {["Lunch", "Dinner"].map((label) => {
                   const list = r.slots.filter((t) => (label === "Lunch" ? Number(t.slice(0, 2)) < 17 : Number(t.slice(0, 2)) >= 17));
@@ -200,7 +200,7 @@ export default function ReserveWizard({ image, initial }: { image: string; initi
                   submit();
                 }}
               >
-                <h2 className="display text-5xl sm:text-6xl">Almost there.</h2>
+                <h2 className="display text-[34px] sm:text-[44px]">Almost there.</h2>
                 <div className="mt-10 grid gap-3 sm:grid-cols-2">
                   <Field label="Full name" required value={form.name} onChange={(v) => setForm({ ...form, name: v })} autoComplete="name" />
                   <Field label="Phone" required type="tel" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} autoComplete="tel" />
@@ -247,7 +247,7 @@ export default function ReserveWizard({ image, initial }: { image: string; initi
                 >
                   <Check size={44} strokeWidth={2.4} />
                 </motion.div>
-                <h2 className="display mt-8 text-5xl sm:text-7xl">See you soon, {form.name.split(" ")[0]}.</h2>
+                <h2 className="display mt-8 text-[40px] sm:text-[56px]">See you soon, {form.name.split(" ")[0]}.</h2>
                 <p className="mt-4 max-w-md text-muted">
                   Your request for {guests} on {fmtDate(date, { weekday: "long", day: "numeric", month: "long" })} at {to12h(time)} is in. We&apos;ll confirm by phone{form.email ? " and email" : ""} shortly.
                 </p>

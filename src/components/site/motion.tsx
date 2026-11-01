@@ -31,12 +31,12 @@ export function RevealText({
   return (
     <Tag ref={ref} className={className} aria-label={text}>
       {words.map((w, i) => (
-        <span key={i} aria-hidden className="inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom">
+        <span key={i} aria-hidden className="inline-block pb-[0.08em] -mb-[0.08em] align-bottom">
           <motion.span
             className={clsx("inline-block will-change-transform", italicWords.includes(w) && "text-accent")}
-            initial={{ y: "110%", rotate: 4 }}
-            animate={inView ? { y: "0%", rotate: 0 } : { y: "110%", rotate: 4 }}
-            transition={{ duration: 1, ease: EASE, delay: delay + i * stagger }}
+            initial={{ y: "40%", opacity: 0, filter: "blur(8px)" }}
+            animate={inView ? { y: "0%", opacity: 1, filter: "blur(0px)" } : { y: "40%", opacity: 0, filter: "blur(8px)" }}
+            transition={{ duration: 0.9, ease: EASE, delay: delay + i * stagger }}
           >
             {w}
             {i < words.length - 1 ? " " : ""}
@@ -169,8 +169,8 @@ export function ScrubText({ text, className }: { text: string; className?: strin
 }
 
 function ScrubWord({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
-  const opacity = useTransform(progress, range, [0.14, 1]);
-  const blur = useTransform(progress, range, [4, 0]);
+  const opacity = useTransform(progress, range, [0.18, 1]);
+  const blur = useTransform(progress, range, [2, 0]);
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
   return (
     <motion.span style={{ opacity, filter }} className="inline-block mr-[0.25em]">
@@ -183,19 +183,11 @@ export function useSmoothProgress(v: MotionValue<number>) {
   return useSpring(v, { stiffness: 120, damping: 30, mass: 0.3 });
 }
 
-/** Section tag: a pill with a live dot and an index counter — replaces the usual "01 —— LABEL". */
-export function SectionLabel({ index, children, className }: { index?: string; children: ReactNode; className?: string }) {
+/** Section eyebrow — small, coloured, Apple-style. */
+export function SectionLabel({ children, className }: { index?: string; children: ReactNode; className?: string }) {
   return (
-    <div className={clsx("flex items-center gap-2", className)}>
-      <motion.span
-        initial={{ scale: 0 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ type: "spring", stiffness: 300, damping: 18 }}
-        className="h-2.5 w-2.5 rounded-full bg-accent"
-      />
-      <span className="eyebrow rounded-full border border-current/20 px-3 py-1.5">{children}</span>
-      {index && <span className="eyebrow opacity-50">/{index}</span>}
+    <div className={clsx("text-[15px] font-semibold sm:text-[17px]", className)}>
+      <span className="text-accent">{children}</span>
     </div>
   );
 }

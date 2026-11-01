@@ -20,7 +20,7 @@ export default function ContactForm({ initialSubject }: { initialSubject?: strin
         {state === "done" ? (
           <motion.div key="done" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="flex min-h-[440px] flex-col items-center justify-center text-center">
             <span className="grid h-20 w-20 place-items-center rounded-full bg-accent text-paper"><Check size={36} /></span>
-            <h3 className="display mt-6 text-5xl">Message received.</h3>
+            <h3 className="display mt-6 text-[34px]">Message received.</h3>
             <p className="mt-3 text-muted">We reply to everything within a day.</p>
           </motion.div>
         ) : (
@@ -72,7 +72,7 @@ export function FaqList({ faqs }: { faqs: Faq[] }) {
         return (
           <li key={f.id} className="border-b border-line">
             <button onClick={() => setOpen(on ? null : f.id)} className="flex w-full items-center justify-between gap-6 py-6 text-left">
-              <span className="display text-3xl sm:text-4xl">{f.q}</span>
+              <span className="display text-[24px] sm:text-[28px]">{f.q}</span>
               <motion.span animate={{ rotate: on ? 45 : 0 }} transition={{ ease: EASE }} className={clsx("grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors", on ? "bg-accent text-paper" : "bg-ink/5")}>
                 <Plus size={18} />
               </motion.span>

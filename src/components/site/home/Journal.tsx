@@ -18,7 +18,7 @@ export function PostCard({ p, i = 0, large = false }: { p: Post; i?: number; lar
           <span className="h-px w-5 bg-line" />
           <span>{fmtDate(p.date)}</span>
         </div>
-        <h3 className={`display mt-2 flex items-start justify-between gap-4 ${large ? "text-5xl sm:text-6xl" : "text-3xl sm:text-4xl"}`}>
+        <h3 className={`display mt-2 flex items-start justify-between gap-4 ${large ? "text-[32px] sm:text-[44px]" : "text-[24px] sm:text-[28px]"}`}>
           <span className="decoration-1 underline-offset-[6px] group-hover:underline">{p.title}</span>
           <ArrowUpRight className="mt-2 shrink-0 transition-transform group-hover:rotate-45" size={22} />
         </h3>
@@ -36,7 +36,7 @@ export default function Journal({ posts }: { posts: Post[] }) {
           <SectionLabel index="09" className="mb-8 text-muted">
             Journal
           </SectionLabel>
-          <RevealText as="h2" text="Notes from the kitchen." className="display block text-[13vw] sm:text-7xl lg:text-8xl" />
+          <RevealText as="h2" text="Notes from the kitchen." className="display block text-[38px] sm:text-[56px] lg:text-[64px]" />
         </div>
         <Link href="/journal" className="group flex items-center gap-2 text-muted hover:text-ink">
           All stories <ArrowUpRight size={16} className="transition-transform group-hover:rotate-45" />

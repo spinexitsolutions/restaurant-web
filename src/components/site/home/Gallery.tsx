@@ -23,7 +23,7 @@ export default function Gallery({ images }: { images: GalleryImage[] }) {
           <SectionLabel index="06" className="mb-8 text-muted">
             Gallery
           </SectionLabel>
-          <RevealText as="h2" text="A room that glows." className="display block text-[13vw] sm:text-7xl lg:text-8xl" />
+          <RevealText as="h2" text="A room that glows." className="display block text-[38px] sm:text-[56px] lg:text-[64px]" />
         </div>
         <Link href="/gallery" className="group flex items-center gap-2 text-muted hover:text-ink">
           View the gallery <ArrowUpRight size={16} className="transition-transform group-hover:rotate-45" />

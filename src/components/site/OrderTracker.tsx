@@ -51,10 +51,10 @@ export default function OrderTracker({ initial }: { initial: Tracked }) {
           </span>
         </div>
         {o.status === "cancelled" ? (
-          <h2 className="display mt-8 text-5xl">This order was cancelled.</h2>
+          <h2 className="display mt-8 text-[34px]">This order was cancelled.</h2>
         ) : (
           <>
-            <h2 className="display mt-8 text-5xl sm:text-6xl">
+            <h2 className="display mt-8 text-[34px] sm:text-[44px]">
               Thank you, {o.name}. <em className="text-accent-soft">{steps[idx]?.l}.</em>
             </h2>
             <ol className="mt-10 space-y-0">
@@ -84,7 +84,7 @@ export default function OrderTracker({ initial }: { initial: Tracked }) {
         )}
       </div>
       <div className="rounded-[30px] bg-cream p-6 ring-1 ring-ink/5 sm:p-10">
-        <h3 className="display text-4xl">Receipt</h3>
+        <h3 className="display text-[28px]">Receipt</h3>
         <ul className="mt-6 divide-y divide-line">
           {o.items.map((l) => (
             <li key={l.itemId} className="flex justify-between py-3 text-[15px]">
@@ -95,7 +95,7 @@ export default function OrderTracker({ initial }: { initial: Tracked }) {
         </ul>
         <div className="mt-4 flex items-baseline justify-between border-t border-ink pt-4">
           <span>Total paid</span>
-          <span className="display text-4xl tabular-nums">{money(o.total, s.ordering.currency)}</span>
+          <span className="display text-[28px] tabular-nums">{money(o.total, s.ordering.currency)}</span>
         </div>
         <p className="mt-6 text-[14px] text-muted">Questions? Call <a href={`tel:${s.contact.phone}`} className="text-ink underline">{s.contact.phone}</a> and quote #{o.code}.</p>
         <Link href="/menu" className="mt-6 inline-flex h-12 items-center rounded-full bg-ink px-6 text-[14px] text-paper">Back to menu</Link>

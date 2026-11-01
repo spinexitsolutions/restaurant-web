@@ -4,44 +4,36 @@ import { motion } from "framer-motion";
 import { useIntro } from "./providers";
 import { EASE } from "./motion";
 
-/** Editorial page header: oversized condensed type, letters rise in one by one. */
+/** Centred, Apple-style page header with a soft blur-in. */
 export default function PageHeader({ eyebrow, title, accent, intro, children }: { eyebrow: string; title: string; accent?: string; intro?: string; children?: React.ReactNode }) {
   const { done } = useIntro();
-  const line = (text: string, cls: string, d: number) => (
-    <span className={`block overflow-hidden pb-[0.04em] ${cls}`}>
-      {Array.from(text).map((ch, i) => (
-        <motion.span
-          key={i}
-          className="inline-block"
-          initial={{ y: "110%" }}
-          animate={done ? { y: 0 } : {}}
-          transition={{ duration: 0.9, ease: EASE, delay: d + i * 0.025 }}
-        >
-          {ch === " " ? " " : ch}
-        </motion.span>
-      ))}
-    </span>
-  );
+  const fade = (d: number) => ({
+    initial: { opacity: 0, y: 20, filter: "blur(8px)" },
+    animate: done ? { opacity: 1, y: 0, filter: "blur(0px)" } : {},
+    transition: { duration: 1, ease: EASE, delay: d },
+  });
   return (
-    <header className="mx-auto max-w-[1400px] px-5 pb-12 pt-32 sm:px-10 sm:pb-16 sm:pt-40">
-      <motion.div className="mb-8 flex items-center justify-between gap-4 border-b border-line pb-4" initial={{ opacity: 0 }} animate={done ? { opacity: 1 } : {}} transition={{ duration: 0.8 }}>
-        <span className="eyebrow flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-accent" /> {eyebrow}
-        </span>
-        <span className="eyebrow hidden text-muted sm:block">Noor — Bandra, Mumbai</span>
-      </motion.div>
-      <h1 className="mega text-[17vw] sm:text-[12vw] lg:text-[10vw] 2xl:text-[10rem]">
-        {line(title, "", 0.1)}
-        {accent && line(accent, "text-accent sm:pl-[8vw]", 0.25)}
+    <header className="mx-auto flex max-w-4xl flex-col items-center px-6 pb-14 pt-32 text-center sm:pb-20 sm:pt-40">
+      <motion.p {...fade(0)} className="mb-4 text-[15px] font-semibold text-accent sm:text-[17px]">
+        {eyebrow}
+      </motion.p>
+      <h1 className="display text-[40px] leading-[1.05] sm:text-[64px] lg:text-[80px]">
+        <motion.span {...fade(0.1)} className="block">
+          {title}
+        </motion.span>
+        {accent && (
+          <motion.span {...fade(0.2)} className="block text-muted">
+            {accent}
+          </motion.span>
+        )}
       </h1>
-      {(intro || children) && (
-        <motion.div
-          className="mt-10 flex flex-col justify-between gap-6 md:flex-row md:items-end"
-          initial={{ opacity: 0, y: 16 }}
-          animate={done ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.9, ease: EASE, delay: 0.5 }}
-        >
-          {intro && <p className="max-w-xl text-[17px] leading-relaxed text-muted text-pretty md:ml-auto md:order-2">{intro}</p>}
+      {intro && (
+        <motion.p {...fade(0.32)} className="mt-6 max-w-xl text-[17px] leading-relaxed text-muted sm:text-[19px]">
+          {intro}
+        </motion.p>
+      )}
+      {children && (
+        <motion.div {...fade(0.4)} className="mt-6">
           {children}
         </motion.div>
       )}

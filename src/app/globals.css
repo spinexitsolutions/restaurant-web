@@ -5,22 +5,22 @@
   --color-ink: var(--ink);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
-  --color-line: color-mix(in oklab, var(--ink) 12%, transparent);
-  --color-muted: color-mix(in oklab, var(--ink) 58%, transparent);
-  --color-cream: color-mix(in oklab, var(--paper) 70%, white);
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, -apple-system, "SF Pro Text", sans-serif;
-  --font-display: var(--font-brico), var(--font-body), ui-sans-serif, sans-serif;
-  --font-mono: var(--font-body), ui-sans-serif, sans-serif;
+  --color-line: color-mix(in oklab, var(--ink) 10%, transparent);
+  --color-muted: color-mix(in oklab, var(--ink) 55%, var(--paper));
+  --color-cream: #ffffff;
+  --color-mist: color-mix(in oklab, var(--ink) 4%, var(--paper));
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  --font-display: var(--font-inter), -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+  --font-mono: var(--font-inter), -apple-system, sans-serif;
   --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-expo: cubic-bezier(0.87, 0, 0.13, 1);
 }
 
 :root {
-  --paper: #f2eee6;
-  --ink: #0f0f12;
-  --accent: #2f3cff;
-  --accent-soft: #ffc83d;
-  --nav-h: 76px;
+  --paper: #fafaf7;
+  --ink: #1d1d1f;
+  --accent: #b5532e;
+  --accent-soft: #f4e6dc;
 }
 
 * {
@@ -48,53 +48,42 @@ html.lenis body {
 
 body {
   font-family: var(--font-sans);
-  letter-spacing: -0.006em;
+  font-feature-settings: "cv11", "ss03";
+  letter-spacing: -0.011em;
 }
 
 ::selection {
   background: var(--accent);
-  color: var(--paper);
+  color: #fff;
 }
 
-/* ───────── Typography system ───────── */
-/* Display: a condensed, heavy grotesk — no serifs, no italics. */
-.display {
+/* ───────── Typography (Apple-like: Inter, semibold, tight tracking) ───────── */
+.display,
+.mega {
   font-family: var(--font-display);
-  font-weight: 650;
-  font-stretch: 84%;
-  font-variation-settings: "opsz" 96;
-  letter-spacing: -0.022em;
-  line-height: 0.9;
+  font-weight: 600;
+  font-variation-settings: "opsz" 32;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
 }
+.mega {
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+/* Two-tone headlines: the emphasised part goes soft grey */
 .display em,
 .display i,
 .display .italic,
-.display.italic {
+.display.italic,
+.mega em {
   font-style: normal;
-  color: var(--accent);
-}
-/* Giant uppercase headline type */
-.mega {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-stretch: 78%;
-  font-variation-settings: "opsz" 96;
-  letter-spacing: -0.018em;
-  word-spacing: 0.06em;
-  line-height: 0.84;
-  text-transform: uppercase;
+  color: color-mix(in oklab, var(--ink) 45%, var(--paper));
 }
 .eyebrow {
   font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-/* Highlighter swipe for accent words */
-.mark {
-  background: linear-gradient(var(--accent-soft), var(--accent-soft)) no-repeat 0 88% / 100% 0.32em;
-  padding: 0 0.04em;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.02em;
 }
 .text-balance {
   text-wrap: balance;
@@ -103,37 +92,13 @@ body {
   text-wrap: pretty;
 }
 
-/* ───────── Grain overlay — adds analogue warmth ───────── */
-.grain::after {
-  content: "";
-  position: fixed;
-  inset: -50%;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  animation: grain 8s steps(10) infinite;
-}
-@keyframes grain {
-  0%,
-  100% { transform: translate(0, 0); }
-  10% { transform: translate(-5%, -10%); }
-  30% { transform: translate(3%, -15%); }
-  50% { transform: translate(12%, 9%); }
-  70% { transform: translate(9%, 4%); }
-  90% { transform: translate(-1%, 7%); }
-}
-
 /* ───────── Marquee ───────── */
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
 .marquee {
-  animation: marquee var(--marquee-speed, 32s) linear infinite;
-}
-.marquee-paused:hover .marquee {
-  animation-play-state: paused;
+  animation: marquee var(--marquee-speed, 40s) linear infinite;
 }
 
 /* ───────── Utilities ───────── */
@@ -143,27 +108,20 @@ body {
 .no-scrollbar {
   scrollbar-width: none;
 }
-.hairline {
-  border-color: color-mix(in oklab, var(--ink) 12%, transparent);
-}
 .glass {
-  background: color-mix(in oklab, var(--ink) 72%, transparent);
+  background: color-mix(in oklab, var(--ink) 70%, transparent);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
 }
 .glass-light {
-  background: color-mix(in oklab, var(--paper) 72%, transparent);
+  background: rgba(255, 255, 255, 0.78);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
 }
-.shine {
-  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
-  background-size: 250% 100%;
-  animation: shine 2.4s var(--ease-apple) infinite;
-}
-@keyframes shine {
-  from { background-position: 150% 0; }
-  to { background-position: -100% 0; }
+.card {
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 30px -12px rgba(0, 0, 0, 0.08);
 }
 @keyframes pulse-dot {
   0% { box-shadow: 0 0 0 0 color-mix(in oklab, currentColor 60%, transparent); }
@@ -178,6 +136,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 
+html.intro-skip [data-intro] {
+  display: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -186,16 +148,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-}
-
-html.intro-skip [data-intro] {
-  display: none !important;
-}
-
-@keyframes spin-slow { to { transform: rotate(360deg); } }
-.spin-slow { animation: spin-slow 40s linear infinite; }
-.spin-rev { animation: spin-slow 28s linear infinite reverse; }
-.outline-text {
-  color: transparent;
-  -webkit-text-stroke: 1.2px var(--ink);
 }

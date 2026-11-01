@@ -18,7 +18,7 @@ export default function Experiences({ events }: { events: EventItem[] }) {
           Experiences
         </SectionLabel>
         <div className="mb-16 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-          <RevealText as="h2" text="Evenings worth planning around." className="display block max-w-[14ch] text-[13vw] sm:text-7xl lg:text-8xl" />
+          <RevealText as="h2" text="Evenings worth planning around." className="display block max-w-[14ch] text-[38px] sm:text-[56px] lg:text-[64px]" />
           <Link href="/events" className="group flex items-center gap-2 text-paper/70 hover:text-paper">
             All experiences <ArrowUpRight size={16} className="transition-transform group-hover:rotate-45" />
           </Link>
@@ -52,7 +52,7 @@ function Card({ e, i, total }: { e: EventItem; i: number; total: number }) {
               <span className="rounded-full bg-accent/90 px-3 py-1 text-[12px]">{e.seats} seats</span>
             </div>
             <div>
-              <h3 className="display text-[44px] leading-[0.95] sm:text-6xl lg:text-7xl">{e.title}</h3>
+              <h3 className="display text-[34px] leading-[1.05] sm:text-5xl lg:text-[56px]">{e.title}</h3>
               <p className="mt-3 line-clamp-3 max-w-md text-[15px] text-paper/60 text-pretty sm:mt-4 sm:line-clamp-none sm:text-base">{e.description}</p>
             </div>
             <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-5">

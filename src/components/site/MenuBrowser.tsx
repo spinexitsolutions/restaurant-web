@@ -96,7 +96,7 @@ export default function MenuBrowser({ categories, items }: { categories: Categor
           return (
             <section key={c.id} ref={(el) => { refs.current[c.id] = el; }} data-cat={c.id} className="scroll-mt-48 pt-14">
               <div className="mb-8 flex items-end justify-between gap-6 border-b border-line pb-5">
-                <h2 className="display text-6xl sm:text-7xl">{c.name}</h2>
+                <h2 className="display text-[40px] sm:text-[52px]">{c.name}</h2>
                 <p className="hidden text-muted sm:block">{c.description}</p>
               </div>
               <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
@@ -164,10 +164,10 @@ export default function MenuBrowser({ categories, items }: { categories: Categor
                       <span key={t} className="rounded-full bg-ink/5 px-2.5 py-1 text-[11px]">{TAG_LABEL[t]}</span>
                     ))}
                   </div>
-                  <h3 className="display mt-4 text-5xl">{view.name}</h3>
+                  <h3 className="display mt-4 text-[34px]">{view.name}</h3>
                   <p className="mt-3 text-muted">{view.description}</p>
                   <div className="mt-auto flex items-center justify-between pt-8">
-                    <span className="display text-4xl tabular-nums">{money(view.price, s.ordering.currency)}</span>
+                    <span className="display text-[28px] tabular-nums">{money(view.price, s.ordering.currency)}</span>
                     <AddButton item={view} label />
                   </div>
                 </div>

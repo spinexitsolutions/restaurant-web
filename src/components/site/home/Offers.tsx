@@ -41,7 +41,7 @@ function Ticket({ o, i }: { o: Offer; i: number }) {
         <span className="absolute -left-3 -top-3 h-6 w-6 rounded-full bg-paper" />
         <span className="absolute -bottom-3 -left-3 h-6 w-6 rounded-full bg-paper" />
         <div>
-          <div className="display text-6xl leading-none sm:text-7xl">{o.discount}% off</div>
+          <div className="display text-[40px] leading-none sm:text-[52px]">{o.discount}% off</div>
           <h3 className="mt-3 text-lg font-medium">{o.title}</h3>
           <p className="text-[14px] text-paper/75">{o.description} {o.minOrder > 0 && `Min. order ${money(o.minOrder, s.ordering.currency)}.`}</p>
         </div>

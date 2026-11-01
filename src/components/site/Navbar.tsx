@@ -91,7 +91,7 @@ export default function Navbar({ previews }: { previews: string[] }) {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-40 bg-ink/40 backdrop-blur-sm"
+            className="fixed inset-0 z-40 bg-black/10 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -113,14 +113,14 @@ export default function Navbar({ previews }: { previews: string[] }) {
             transition={{ layout: { duration: 0.65, ease: EASE } }}
             style={{ borderRadius: open ? 30 : 999 }}
             className={clsx(
-              "glass pointer-events-auto relative overflow-hidden text-paper shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] ring-1 ring-white/10",
+              "glass-light pointer-events-auto relative overflow-hidden text-ink shadow-[0_10px_40px_-12px_rgba(0,0,0,0.16)] ring-1 ring-black/[0.06]",
               open ? "w-full max-w-[1040px] h-[calc(100dvh-24px)] sm:h-auto" : "w-auto"
             )}
           >
             {/* bar */}
             <motion.div layout="position" className="flex h-14 items-center gap-1 pl-5 pr-1.5">
               <Link href="/" className="group flex items-baseline gap-1.5 pr-2" aria-label={s.brand.name}>
-                <span className="display text-[26px] leading-none">{s.brand.name}</span>
+                <span className="text-[19px] font-semibold leading-none tracking-tight">{s.brand.name}</span>
                 <span className="h-1.5 w-1.5 rounded-full bg-accent transition-transform group-hover:scale-150" />
               </Link>
 
@@ -131,9 +131,9 @@ export default function Navbar({ previews }: { previews: string[] }) {
                     animate={{ opacity: 1, width: "auto" }}
                     exit={{ opacity: 0, width: 0 }}
                     transition={{ duration: 0.45, ease: EASE }}
-                    className="hidden items-center gap-2 overflow-hidden whitespace-nowrap border-l border-white/15 pl-3 pr-2 text-[12px] text-paper/70 sm:flex"
+                    className="hidden items-center gap-2 overflow-hidden whitespace-nowrap border-l border-ink/10 pl-3 pr-2 text-[12px] text-muted sm:flex"
                   >
-                    <span className={clsx("pulse-dot h-1.5 w-1.5 rounded-full", status.open ? "bg-emerald-400 text-emerald-400" : "bg-paper/40 text-paper/40")} />
+                    <span className={clsx("pulse-dot h-1.5 w-1.5 rounded-full", status.open ? "bg-emerald-400 text-emerald-400" : "bg-ink/30 text-ink/30")} />
                     {status.label}
                   </motion.span>
                 )}
@@ -146,10 +146,10 @@ export default function Navbar({ previews }: { previews: string[] }) {
                       key={l.href}
                       href={l.href}
                       onMouseEnter={() => setHover(i + 100)}
-                      className={clsx("relative px-3.5 py-2 text-[13.5px] transition-colors", pathname.startsWith(l.href) ? "text-paper" : "text-paper/65 hover:text-paper")}
+                      className={clsx("relative px-3.5 py-2 text-[13.5px] transition-colors", pathname.startsWith(l.href) ? "text-ink" : "text-ink/60 hover:text-ink")}
                     >
                       {hover === i + 100 && (
-                        <motion.span layoutId="nav-hover" className="absolute inset-0 rounded-full bg-white/10" transition={{ duration: 0.35, ease: EASE }} />
+                        <motion.span layoutId="nav-hover" className="absolute inset-0 rounded-full bg-ink/[0.05]" transition={{ duration: 0.35, ease: EASE }} />
                       )}
                       <span className="relative">{l.label}</span>
                       {pathname.startsWith(l.href) && <span className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-accent" />}
@@ -162,7 +162,7 @@ export default function Navbar({ previews }: { previews: string[] }) {
                 {!open && (
                   <Link
                     href="/reserve"
-                    className="hidden h-11 items-center gap-2 rounded-full bg-paper px-4 text-[13px] font-medium text-ink transition-transform hover:scale-[1.03] active:scale-95 sm:flex"
+                    className="hidden h-11 items-center gap-2 rounded-full bg-accent px-4 text-[13px] font-medium text-white transition-transform hover:scale-[1.03] active:scale-95 sm:flex"
                   >
                     <CalendarDays size={15} /> Book
                   </Link>
@@ -173,7 +173,7 @@ export default function Navbar({ previews }: { previews: string[] }) {
                     setOpen(false);
                     cart.setOpen(true);
                   }}
-                  className="relative grid h-11 w-11 place-items-center rounded-full transition-colors hover:bg-white/10"
+                  className="relative grid h-11 w-11 place-items-center rounded-full transition-colors hover:bg-ink/5"
                 >
                   <ShoppingBag size={18} strokeWidth={1.6} />
                   <AnimatePresence>
@@ -184,7 +184,7 @@ export default function Navbar({ previews }: { previews: string[] }) {
                         animate={{ scale: [1.5, 1] }}
                         exit={{ scale: 0 }}
                         transition={{ duration: 0.45, ease: EASE }}
-                        className="absolute right-1 top-1 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-accent px-1 text-[10px] font-semibold text-paper"
+                        className="absolute right-1 top-1 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-accent px-1 text-[10px] font-semibold text-white"
                       >
                         {cart.count}
                       </motion.span>
@@ -195,10 +195,10 @@ export default function Navbar({ previews }: { previews: string[] }) {
                   aria-label={open ? "Close menu" : "Open menu"}
                   aria-expanded={open}
                   onClick={() => setOpen((v) => !v)}
-                  className="relative grid h-11 w-11 place-items-center rounded-full bg-white/10 transition-colors hover:bg-white/20"
+                  className="relative grid h-11 w-11 place-items-center rounded-full bg-ink/[0.05] transition-colors hover:bg-ink/10"
                 >
-                  <motion.span className="absolute h-[1.5px] w-4 rounded bg-paper" animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -3 }} transition={{ duration: 0.4, ease: EASE }} />
-                  <motion.span className="absolute h-[1.5px] w-4 rounded bg-paper" animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 3 }} transition={{ duration: 0.4, ease: EASE }} />
+                  <motion.span className="absolute h-[1.5px] w-4 rounded bg-ink" animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -3 }} transition={{ duration: 0.4, ease: EASE }} />
+                  <motion.span className="absolute h-[1.5px] w-4 rounded bg-ink" animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 3 }} transition={{ duration: 0.4, ease: EASE }} />
                 </button>
               </div>
             </motion.div>
@@ -224,11 +224,11 @@ export default function Navbar({ previews }: { previews: string[] }) {
                                 onMouseEnter={() => setHover(i)}
                                 className="group flex items-baseline gap-4 py-1 sm:py-0.5"
                               >
-                                <span className="w-6 font-mono text-[11px] text-paper/40">{String(i + 1).padStart(2, "0")}</span>
+                                <span className="w-6 text-[11px] text-ink/35">{String(i + 1).padStart(2, "0")}</span>
                                 <span
                                   className={clsx(
-                                    "mega text-[46px] leading-[0.95] transition-all duration-500 sm:text-[60px]",
-                                    active ? "text-accent-soft" : "text-paper group-hover:translate-x-2 group-hover:text-accent-soft"
+                                    "display text-[36px] leading-[1.15] transition-all duration-500 sm:text-[44px]",
+                                    active ? "text-accent" : "text-ink group-hover:translate-x-1.5 group-hover:text-accent"
                                   )}
                                 >
                                   {l.label}
@@ -240,7 +240,7 @@ export default function Navbar({ previews }: { previews: string[] }) {
                       })}
                     </ul>
                     <div className="hidden flex-col gap-4 sm:flex">
-                      <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-white/5">
+                      <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-mist">
                         <AnimatePresence mode="popLayout">
                           <motion.img
                             key={hover}
@@ -261,20 +261,20 @@ export default function Navbar({ previews }: { previews: string[] }) {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0, transition: { delay: 0.5 } }}
-                    className="mt-5 grid gap-4 border-t border-white/10 pt-5 text-[13px] text-paper/70 sm:grid-cols-3 sm:items-end"
+                    className="mt-5 grid gap-4 border-t border-ink/10 pt-5 text-[13px] text-muted sm:grid-cols-3 sm:items-end"
                   >
                     <div>
-                      <div className="eyebrow mb-1 text-paper/40">Visit</div>
+                      <div className="eyebrow mb-1 text-ink/40">Visit</div>
                       {s.contact.address}, {s.contact.city}
                     </div>
                     <div>
-                      <div className="eyebrow mb-1 text-paper/40">Talk</div>
-                      <a href={`tel:${s.contact.phone}`} className="block hover:text-paper">{s.contact.phone}</a>
-                      <a href={`mailto:${s.contact.email}`} className="block hover:text-paper">{s.contact.email}</a>
+                      <div className="eyebrow mb-1 text-ink/40">Talk</div>
+                      <a href={`tel:${s.contact.phone}`} className="block hover:text-ink">{s.contact.phone}</a>
+                      <a href={`mailto:${s.contact.email}`} className="block hover:text-ink">{s.contact.email}</a>
                     </div>
                     <div className="flex items-center justify-between gap-3 sm:justify-end">
                       <Socials />
-                      <Link href="/reserve" className="flex h-11 items-center gap-2 rounded-full bg-accent px-5 font-medium text-paper">
+                      <Link href="/reserve" className="flex h-11 items-center gap-2 rounded-full bg-accent px-5 font-medium text-white">
                         Reserve <ArrowUpRight size={16} />
                       </Link>
                     </div>
@@ -325,10 +325,10 @@ function MobileDock({ visible }: { visible: boolean }) {
           className="fixed inset-x-3 z-40 flex gap-2 sm:hidden"
           style={{ bottom: "max(12px, env(safe-area-inset-bottom))" }}
         >
-          <Link href="/order" className="glass flex h-13 flex-1 items-center justify-center gap-2 rounded-full py-3.5 text-sm font-medium text-paper ring-1 ring-white/10">
+          <Link href="/order" className="glass-light flex h-13 flex-1 items-center justify-center gap-2 rounded-full py-3.5 text-sm font-medium text-ink shadow-lg ring-1 ring-black/5">
             <ShoppingBag size={16} /> Order
           </Link>
-          <Link href="/reserve" className="flex h-13 flex-1 items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-sm font-medium text-paper shadow-lg shadow-accent/30">
+          <Link href="/reserve" className="flex h-13 flex-1 items-center justify-center gap-2 rounded-full bg-accent py-3.5 text-sm font-medium text-white shadow-lg shadow-accent/30">
             <CalendarDays size={16} /> Reserve
           </Link>
         </motion.div>

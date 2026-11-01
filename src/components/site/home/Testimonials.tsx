@@ -45,7 +45,7 @@ export default function Testimonials({ items }: { items: Testimonial[] }) {
                   </motion.span>
                 ))}
               </div>
-              <blockquote className="display text-[9vw] leading-[1.05] sm:text-6xl lg:text-7xl">
+              <blockquote className="display text-[28px] leading-[1.2] sm:text-[40px] lg:text-[46px]">
                 {t.quote.split(" ").map((w, k) => (
                   <span key={k} className="inline-block overflow-hidden align-bottom">
                     <motion.span

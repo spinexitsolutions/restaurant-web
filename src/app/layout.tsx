@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import { getSettings } from "@/lib/db";
 import "./globals.css";
 
-const display = Bricolage_Grotesque({ subsets: ["latin"], axes: ["opsz", "wdth"], variable: "--font-brico" });
-const body = Instrument_Sans({ subsets: ["latin"], axes: ["wdth"], variable: "--font-body" });
+const inter = Inter({ subsets: ["latin"], axes: ["opsz"], variable: "--font-inter" });
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#0f0f12",
+  themeColor: "#fafaf7",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -33,7 +32,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     "--accent-soft": s.brand.accentSoft,
   } as React.CSSProperties;
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`} style={vars} suppressHydrationWarning>
+    <html lang="en" className={inter.variable} style={vars} suppressHydrationWarning>
       <body className="min-h-dvh bg-paper text-ink">{children}</body>
     </html>
   );

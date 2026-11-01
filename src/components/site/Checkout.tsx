@@ -69,7 +69,7 @@ export default function Checkout({ suggestions }: { suggestions: MenuItem[] }) {
     return (
       <div className="mx-auto max-w-[1400px] px-5 pb-32 sm:px-10">
         <div className="rounded-[30px] bg-cream p-8 text-center ring-1 ring-ink/5 sm:p-14">
-          <h2 className="display text-5xl">Your bag is empty.</h2>
+          <h2 className="display text-[34px]">Your bag is empty.</h2>
           <p className="mt-3 text-muted">Start with something everyone orders:</p>
           <div className="mt-10 grid gap-4 text-left sm:grid-cols-2 lg:grid-cols-4">
             {suggestions.map((m) => (
@@ -110,7 +110,7 @@ export default function Checkout({ suggestions }: { suggestions: MenuItem[] }) {
         </div>
 
         <section className="rounded-[28px] bg-cream p-5 ring-1 ring-ink/5 sm:p-8">
-          <h2 className="display mb-6 text-4xl">Your details</h2>
+          <h2 className="display mb-6 text-[28px]">Your details</h2>
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Full name" required value={form.name} onChange={(v) => setForm({ ...form, name: v })} autoComplete="name" />
             <Field label="Phone" required type="tel" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} autoComplete="tel" />
@@ -127,7 +127,7 @@ export default function Checkout({ suggestions }: { suggestions: MenuItem[] }) {
         </section>
 
         <section className="rounded-[28px] bg-cream p-5 ring-1 ring-ink/5 sm:p-8">
-          <h2 className="display mb-6 text-4xl">Payment</h2>
+          <h2 className="display mb-6 text-[28px]">Payment</h2>
           <div className="grid gap-2 sm:grid-cols-3">
             {([
               ["upi", "UPI", Smartphone],
@@ -168,7 +168,7 @@ export default function Checkout({ suggestions }: { suggestions: MenuItem[] }) {
       {/* summary */}
       <aside className="lg:sticky lg:top-24 lg:self-start">
         <div className="rounded-[28px] bg-ink p-6 text-paper sm:p-8">
-          <h2 className="display mb-5 text-4xl">Order summary</h2>
+          <h2 className="display mb-5 text-[28px]">Order summary</h2>
           <ul className="max-h-[38vh] space-y-4 overflow-y-auto pr-1" data-lenis-prevent>
             {cart.lines.map((l) => (
               <li key={l.id} className="flex items-center gap-3">
@@ -209,7 +209,7 @@ export default function Checkout({ suggestions }: { suggestions: MenuItem[] }) {
           </dl>
           <div className="mt-4 flex items-baseline justify-between border-t border-white/10 pt-4">
             <span className="text-paper/60">Total</span>
-            <motion.span key={total} initial={{ y: -8, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="display text-5xl tabular-nums">{money(total, o.currency)}</motion.span>
+            <motion.span key={total} initial={{ y: -8, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="display text-[34px] tabular-nums">{money(total, o.currency)}</motion.span>
           </div>
           {subtotal < o.minOrder && <p className="mt-3 text-[13px] text-amber-300">Minimum order is {money(o.minOrder, o.currency)}.</p>}
           {error && <p className="mt-3 text-[13px] text-red-300">{error}</p>}

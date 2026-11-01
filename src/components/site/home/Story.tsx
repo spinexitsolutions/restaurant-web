@@ -20,7 +20,7 @@ export default function Story() {
           <SectionLabel index="03" className="mb-8 text-muted">
             {st.eyebrow}
           </SectionLabel>
-          <RevealText as="h2" text={st.title} className="display block text-[13vw] sm:text-7xl lg:text-[5.4vw]" />
+          <RevealText as="h2" text={st.title} className="display block text-[38px] sm:text-[56px] lg:text-[64px]" />
           <FadeUp delay={0.2}>
             <p className="mt-8 text-[18px] leading-relaxed text-muted text-pretty">{st.body}</p>
           </FadeUp>

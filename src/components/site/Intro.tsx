@@ -68,7 +68,7 @@ function Curtain({ words, idx, count, exiting, brand }: { words: string[]; idx: 
         {Array.from({ length: cols }).map((_, i) => (
           <motion.div
             key={i}
-            className="h-full flex-1 bg-ink -mx-px"
+            className="h-full flex-1 bg-paper -mx-px"
             initial={{ y: 0 }}
             animate={exiting ? { y: "-102%" } : { y: 0 }}
             transition={{ duration: 1.1, ease: EXPO, delay: exiting ? i * 0.07 : 0 }}
@@ -76,7 +76,7 @@ function Curtain({ words, idx, count, exiting, brand }: { words: string[]; idx: 
         ))}
       </div>
       <motion.div
-        className="absolute inset-0 flex flex-col items-center justify-center text-paper"
+        className="absolute inset-0 flex flex-col items-center justify-center text-ink"
         animate={exiting ? { opacity: 0, y: -40 } : { opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: EASE }}
       >
@@ -84,23 +84,23 @@ function Curtain({ words, idx, count, exiting, brand }: { words: string[]; idx: 
           <AnimatePresence mode="popLayout">
             <motion.span
               key={idx}
-              className="display absolute inset-x-0 top-0 block text-[22vw] leading-none sm:text-[15vw] md:text-[11rem]"
+              className="display absolute inset-x-0 top-0 block text-[18vw] leading-none sm:text-[12vw] md:text-[9rem]"
               initial={{ y: "100%", opacity: 0, filter: "blur(8px)" }}
               animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
               exit={{ y: "-100%", opacity: 0, filter: "blur(8px)" }}
               transition={{ duration: 0.7, ease: EASE }}
             >
-              {idx === words.length - 1 ? <em className="text-accent-soft">{words[idx]}</em> : words[idx]}
+              {idx === words.length - 1 ? <span className="text-accent">{words[idx]}</span> : words[idx]}
             </motion.span>
           </AnimatePresence>
         </div>
       </motion.div>
       <motion.div
-        className="absolute inset-x-5 bottom-6 flex items-end justify-between text-paper/70 sm:inset-x-10 sm:bottom-10"
+        className="absolute inset-x-5 bottom-6 flex items-end justify-between text-muted sm:inset-x-10 sm:bottom-10"
         animate={exiting ? { opacity: 0 } : { opacity: 1 }}
       >
         <div className="eyebrow">{brand} — Est. 1986</div>
-        <div className="font-mono text-5xl tabular-nums text-paper sm:text-7xl">{String(count).padStart(3, "0")}</div>
+        <div className="text-4xl font-semibold tabular-nums tracking-tight text-ink sm:text-6xl">{String(count).padStart(3, "0")}</div>
       </motion.div>
       <motion.div
         className="absolute bottom-0 left-0 h-[2px] bg-accent"
@@ -133,7 +133,7 @@ function CounterIntro({ images, count, exiting, brand, tagline }: { images: stri
         {img && <img src={img} alt="" className="h-full w-full object-cover" />}
       </motion.div>
       <motion.div animate={exiting ? { opacity: 0 } : { opacity: 1 }} className="absolute inset-x-5 top-6 flex justify-between sm:inset-x-10 sm:top-10">
-        <span className="display text-3xl">{brand}</span>
+        <span className="display text-[24px]">{brand}</span>
         <span className="eyebrow self-center text-muted">{tagline}</span>
       </motion.div>
       <motion.div
@@ -165,7 +165,7 @@ function WordsIntro({ words, idx, exiting }: { words: string[]; idx: number; exi
           exit={{ opacity: 0, filter: "blur(20px)", scale: 1.06 }}
           transition={{ duration: 0.45, ease: EASE }}
         >
-          {idx === words.length - 1 ? <em className="text-accent">{words[idx]}</em> : words[idx]}
+          {idx === words.length - 1 ? <span className="text-accent">{words[idx]}</span> : words[idx]}
         </motion.span>
       </AnimatePresence>
     </motion.div>

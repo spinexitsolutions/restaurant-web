@@ -22,13 +22,13 @@ export default async function EventsPage() {
               <div className={`relative aspect-[16/10] overflow-hidden md:aspect-auto md:min-h-[440px] ${i % 2 ? "md:order-2" : ""}`}>
                 <img src={e.image} alt={e.title} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-105" />
                 <div className="glass absolute left-5 top-5 flex flex-col items-center rounded-[18px] px-4 py-2 text-paper">
-                  <span className="display text-4xl leading-none">{new Date(e.date + "T00:00:00").getDate()}</span>
+                  <span className="display text-[28px] leading-none">{new Date(e.date + "T00:00:00").getDate()}</span>
                   <span className="eyebrow text-[10px]">{fmtDate(e.date, { month: "short" })}</span>
                 </div>
               </div>
               <div className="flex flex-col justify-between gap-8 p-6 sm:p-10">
                 <div>
-                  <h2 className="display text-5xl sm:text-6xl">{e.title}</h2>
+                  <h2 className="display text-[34px] sm:text-[44px]">{e.title}</h2>
                   <p className="mt-4 max-w-lg text-[17px] text-muted text-pretty">{e.description}</p>
                 </div>
                 <div>
@@ -38,7 +38,7 @@ export default async function EventsPage() {
                     <span className="flex items-center gap-2"><Users size={15} className="text-accent" /> {e.seats} seats</span>
                   </div>
                   <div className="mt-6 flex items-center justify-between">
-                    <span className="display text-4xl">{money(e.price, cur)} <span className="font-sans text-[14px] text-muted">per guest</span></span>
+                    <span className="display text-[28px]">{money(e.price, cur)} <span className="font-sans text-[14px] text-muted">per guest</span></span>
                     <Link href={`/reserve?occasion=${encodeURIComponent(e.title)}&date=${e.date}&time=${e.time}`} className="flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-[14px] text-paper transition hover:bg-accent">
                       Book <ArrowUpRight size={16} />
                     </Link>
@@ -55,7 +55,7 @@ export default async function EventsPage() {
           <img src={IMG.aerial} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" />
           <div className="relative max-w-2xl">
             <SectionLabel className="mb-6 text-paper/60">Private dining</SectionLabel>
-            <h2 className="display text-6xl sm:text-7xl">Your party, <em className="text-accent-soft">our fire.</em></h2>
+            <h2 className="display text-[40px] sm:text-[52px]">Your party, <em className="text-accent-soft">our fire.</em></h2>
             <p className="mt-5 text-paper/70">Birthdays, offsites, weddings and wrap parties for 10 to 80 guests. Custom menus, your playlist, our team.</p>
             <Link href="/contact?subject=Private%20dining" className="mt-8 inline-flex h-14 items-center gap-2 rounded-full bg-paper px-7 font-medium text-ink">
               Plan an event <ArrowUpRight size={18} />

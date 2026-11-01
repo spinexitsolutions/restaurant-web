@@ -28,7 +28,7 @@ export default function ReserveCta() {
         <SectionLabel index="10" className="mb-8 text-paper/60">
           Reservations
         </SectionLabel>
-        <RevealText as="h2" text="Your table is waiting." className="display block max-w-[11ch] text-[15vw] sm:text-8xl lg:text-[8.5vw]" />
+        <RevealText as="h2" text="Your table is waiting." className="display block max-w-[14ch] text-[44px] sm:text-[64px] lg:text-[80px]" />
         <form
           onSubmit={(e) => {
             e.preventDefault();

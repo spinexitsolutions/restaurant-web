@@ -37,11 +37,11 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         <ParallaxImage src={post.cover} alt="" className="aspect-[16/10] w-full rounded-[30px] sm:aspect-[21/9]" strength={8} />
       </div>
       <div className="mx-auto max-w-[680px] px-5 py-20 sm:py-28">
-        <p className="display mb-10 text-3xl leading-snug sm:text-4xl">{post.excerpt}</p>
+        <p className="display mb-10 text-[24px] leading-snug sm:text-4xl">{post.excerpt}</p>
         {blocks.map((b, i) =>
           b.startsWith("## ") ? (
             <FadeUp key={i}>
-              <h2 className="display mb-4 mt-12 text-4xl sm:text-5xl">{b.slice(3)}</h2>
+              <h2 className="display mb-4 mt-12 text-[28px] sm:text-[34px]">{b.slice(3)}</h2>
             </FadeUp>
           ) : (
             <FadeUp key={i}>

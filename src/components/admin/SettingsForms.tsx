@@ -30,6 +30,7 @@ const TITLES: Record<SettingsSection, [string, string]> = {
 };
 
 const PALETTES = [
+  { name: "Terracotta", accent: "#B5532E", accentSoft: "#F4E6DC", ink: "#1D1D1F", paper: "#FAFAF7" },
   { name: "Ember", accent: "#D4572A", accentSoft: "#F2C48D", ink: "#141210", paper: "#F5F0E8" },
   { name: "Saffron", accent: "#E39B2D", accentSoft: "#F7DDA8", ink: "#1A1612", paper: "#F7F2EA" },
   { name: "Emerald", accent: "#1F7A5A", accentSoft: "#B9E0CC", ink: "#0F1513", paper: "#F1F2EC" },

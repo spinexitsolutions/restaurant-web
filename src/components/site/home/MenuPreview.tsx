@@ -28,7 +28,7 @@ export default function MenuPreview({ categories, items }: { categories: Categor
           <SectionLabel index="04" className="mb-8 text-muted">
             The menu
           </SectionLabel>
-          <RevealText as="h2" text="Something for every craving." className="display block max-w-[12ch] text-[13vw] sm:text-7xl lg:text-8xl" />
+          <RevealText as="h2" text="Something for every craving." className="display block max-w-[14ch] text-[38px] sm:text-[56px] lg:text-[64px]" />
         </div>
         <div className="-mx-5 overflow-x-auto px-5 no-scrollbar sm:mx-0 sm:px-0">
           <div className="flex w-max gap-1 rounded-full bg-ink/[0.05] p-1">
@@ -72,7 +72,7 @@ export default function MenuPreview({ categories, items }: { categories: Categor
                 <div className="min-w-0">
                   <div className="flex items-center gap-3">
                     <VegMark veg={item.tags.includes("veg")} />
-                    <h3 className="display truncate text-[26px] transition-all duration-500 group-hover:translate-x-2 group-hover:text-accent sm:text-5xl">{item.name}</h3>
+                    <h3 className="truncate text-[20px] font-semibold tracking-tight transition-all duration-500 group-hover:translate-x-1.5 group-hover:text-accent sm:text-[30px]">{item.name}</h3>
                   </div>
                   <p className="mt-1 line-clamp-1 text-[14px] text-muted sm:pl-[26px] sm:text-[15px]">{item.description}</p>
                 </div>
